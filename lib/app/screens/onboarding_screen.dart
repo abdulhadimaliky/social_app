@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:social_app/auth/screens/signup_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({super.key});
@@ -10,7 +11,7 @@ class OnboardingScreen extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CarouselSlider(
                 items: onboardingList,
@@ -23,6 +24,9 @@ class OnboardingScreen extends StatelessWidget {
                   enlargeCenterPage: false,
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
@@ -30,13 +34,16 @@ class OnboardingScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignupScreen()));
+                  },
                   child: const Text(
                     "Join Now",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
+              TextButton(onPressed: () {}, child: const Text("Sign In")),
             ],
           ),
         ),
@@ -57,7 +64,7 @@ final List<Widget> onboardingList = [
       const Text(
         "Butterfly will allow you to contact your friend safe\nand privetly.",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: 12),
       ),
       Image.asset("assets/Pagination1.png")
     ],
@@ -73,7 +80,7 @@ final List<Widget> onboardingList = [
       const Text(
         "Create or Discover a forum for discussion with your\nfriend and more people",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: 12),
       ),
       Image.asset("assets/2.png")
     ],
@@ -89,7 +96,7 @@ final List<Widget> onboardingList = [
       const Text(
         "Analyze your data, start promoting and build your\ngreat audience!",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: 12),
       ),
       Image.asset("assets/3.png")
     ],
@@ -108,7 +115,7 @@ final List<Widget> onboardingList = [
       const Text(
         "Analyze your data, start promoting and build your\ngreat audience!",
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 14),
+        style: TextStyle(fontSize: 12),
       ),
       Image.asset("assets/4.png")
     ],
