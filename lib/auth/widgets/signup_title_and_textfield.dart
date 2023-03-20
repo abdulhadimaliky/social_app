@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 
 class SignupTitleAndTextField extends StatelessWidget {
-  SignupTitleAndTextField({
-    super.key,
-    required this.title,
-    required this.hintText,
-    required this.validate,
-    this.obscure = false,
-    // this.suffixIcon = const IconButton(onPressed: () {
-
-    // }, icon: Icon(Icons.remove_red_eye))
-  });
+  const SignupTitleAndTextField(
+      {super.key,
+      required this.title,
+      required this.hintText,
+      required this.validate,
+      this.obscure = false,
+      required this.controller});
 
   final String title;
   final String hintText;
   final String? Function(String?) validate;
   final bool obscure;
-  // final Widget suffixIcon;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +22,24 @@ class SignupTitleAndTextField extends StatelessWidget {
       children: [
         Text(title),
         Padding(
-          padding: const EdgeInsets.only(top: 10.0, bottom: 30),
+          padding: const EdgeInsets.only(top: 10.0, bottom: 10),
           child: TextFormField(
+            controller: controller,
             obscureText: obscure,
             validator: validate,
             decoration: InputDecoration(
-              // suffixIcon: suffixIcon,
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color(0xff007AFF),
+                  )),
               hintText: hintText,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+              hintStyle: const TextStyle(color: Color(0xff007AFF), fontSize: 14),
+              enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color(0xff007AFF),
+                  )),
             ),
           ),
         )

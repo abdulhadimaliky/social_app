@@ -37,6 +37,10 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   carousel_slider: ^4.2.1
+  firebase_storage: ^11.0.16
+  cloud_firestore: ^4.4.5
+  firebase_auth: ^4.3.0
+  firebase_core: ^2.8.0
 
 dev_dependencies:
   flutter_test:
@@ -79,7 +83,8 @@ flutter:
   fonts:
     - family: SFProText
       fonts:
-        - asset: assets/fonts/FontsFree-Net-SFProText-Semibold.ttf
+        - asset: assets/fonts/FontsFree-Net-SFProText-Regular.ttf
+          
         # - asset: fonts/Schyler-Italic.ttf
         #   style: italic
   #   - family: Trajan Pro

@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class SignupWith extends StatelessWidget {
   const SignupWith({super.key});
@@ -8,7 +8,7 @@ class SignupWith extends StatelessWidget {
     return Column(
       children: [
         const Center(
-          child: Text("Or Via Social Media"),
+          child: Text("Or via social media"),
         ),
         const SizedBox(height: 20),
         Row(
