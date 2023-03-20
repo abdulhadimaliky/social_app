@@ -6,4 +6,8 @@ class AuthRepo {
   Future<UserCredential> createUser(String email, String pass) async {
     return await firebaseAuth.createUserWithEmailAndPassword(email: email, password: pass);
   }
+
+  Future<void> signin(String email, String pass) async {
+    await firebaseAuth.signInWithEmailAndPassword(email: email, password: pass);
+  }
 }

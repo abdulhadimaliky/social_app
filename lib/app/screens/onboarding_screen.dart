@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:social_app/auth/screens/signin_screen.dart';
 import 'package:social_app/auth/screens/signup_screen.dart';
 
 class OnboardingScreen extends StatelessWidget {
@@ -43,7 +44,15 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              TextButton(onPressed: () {}, child: const Text("Sign In")),
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => SigninScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text("Sign In")),
             ],
           ),
         ),

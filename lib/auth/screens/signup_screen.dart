@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_app/auth/repo/auth_repo.dart';
+import 'package:social_app/auth/screens/signin_screen.dart';
+import 'package:social_app/auth/widgets/primary_button.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';
 import 'package:social_app/auth/widgets/signup_with.dart';
 
@@ -40,12 +42,12 @@ class SignupScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text("Create an acount and get unlimited access\nto our app feature!",
-                        style: TextStyle(
-                          color: const Color(0xff111129).withOpacity(0.5),
-                        )
-                        // style: TextStyle(fontSize: 36),
-                        ),
+                    Text(
+                      "Create an acount and get unlimited access\nto our app feature!",
+                      style: TextStyle(
+                        color: const Color(0xff111129).withOpacity(0.5),
+                      ),
+                    ),
                     SignupTitleAndTextField(
                       controller: nameController,
                       title: "Your Full Name",
@@ -77,15 +79,8 @@ class SignupScreen extends StatelessWidget {
                       },
                       obscure: true,
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xff007AFF),
-                        fixedSize: Size(MediaQuery.of(context).size.width, 50),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      onPressed: () async {
+                    PrimaryButton(
+                      onpressed: () async {
                         final credential = await AuthRepo().createUser(email.text, pass.text);
                         if (credential.user != null) {
                           print(credential);
@@ -93,7 +88,7 @@ class SignupScreen extends StatelessWidget {
                           print("enter valid data");
                         }
                       },
-                      child: const Text("Sign Up"),
+                      title: "Sign up",
                     ),
                     const SignupWith(),
                     Row(
@@ -105,7 +100,15 @@ class SignupScreen extends StatelessWidget {
                             color: const Color(0xff111129).withOpacity(0.5),
                           ),
                         ),
-                        TextButton(onPressed: () {}, child: const Text("Sign in"))
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => SigninScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text("Sign in"))
                       ],
                     )
                   ],
