@@ -21,7 +21,7 @@ class SignupTitleAndTextField extends StatefulWidget {
 }
 
 class _SignupTitleAndTextFieldState extends State<SignupTitleAndTextField> {
-  bool _obscurePassword = true;
+  bool _obscurePassword = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,6 +31,13 @@ class _SignupTitleAndTextFieldState extends State<SignupTitleAndTextField> {
         Padding(
           padding: const EdgeInsets.only(top: 10.0, bottom: 10),
           child: TextFormField(
+            onTap: () {
+              if (widget.obscure == true) {
+                setState(() {
+                  _obscurePassword = true;
+                });
+              }
+            },
             controller: widget.controller,
             obscureText: _obscurePassword,
             validator: widget.validate,
@@ -42,9 +49,9 @@ class _SignupTitleAndTextFieldState extends State<SignupTitleAndTextField> {
                           _obscurePassword = !_obscurePassword;
                         });
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.remove_red_eye_outlined,
-                        color: Colors.red,
+                        color: const Color(0xff007AFF).withOpacity(0.5),
                       ))
                   : null,
               focusedBorder: OutlineInputBorder(
@@ -53,7 +60,7 @@ class _SignupTitleAndTextFieldState extends State<SignupTitleAndTextField> {
                     color: Color(0xff007AFF),
                   )),
               hintText: widget.hintText,
-              hintStyle: const TextStyle(color: Color(0xff007AFF), fontSize: 14),
+              hintStyle: TextStyle(color: const Color(0xff007AFF).withOpacity(0.5), fontSize: 14),
               enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(
