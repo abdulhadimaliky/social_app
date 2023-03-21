@@ -55,6 +55,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     style: TextStyle(color: const Color(0xff111129).withOpacity(0.5)),
                   ),
                   SignupTitleAndTextField(
+                    fieldSize: "full",
                     title: "Email or Username",
                     hintText: "yourname@email.com",
                     validate: (email) {
@@ -68,6 +69,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     controller: emailController,
                   ),
                   SignupTitleAndTextField(
+                    fieldSize: "full",
                     obscure: true,
                     title: "Your password",
                     hintText: "****",

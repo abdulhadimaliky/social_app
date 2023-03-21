@@ -51,6 +51,7 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                     SignupTitleAndTextField(
+                      fieldSize: "full",
                       controller: nameController,
                       title: "Your Full Name",
                       hintText: "Your Name",
@@ -61,6 +62,7 @@ class SignupScreen extends StatelessWidget {
                       },
                     ),
                     SignupTitleAndTextField(
+                      fieldSize: "full",
                       controller: email,
                       title: "Your Email Address",
                       hintText: "Enter Your Email",
@@ -71,6 +73,7 @@ class SignupScreen extends StatelessWidget {
                       },
                     ),
                     SignupTitleAndTextField(
+                      fieldSize: "full",
                       controller: pass,
                       title: "Set password",
                       hintText: "Enter your password",
