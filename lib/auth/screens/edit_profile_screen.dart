@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/widgets/image_avatar.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';
+import 'package:social_app/auth/widgets/textfield_tags.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
@@ -19,9 +20,9 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height - AppBar().preferredSize.height,
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height - AppBar().preferredSize.height,
+          child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
@@ -96,13 +97,7 @@ class EditProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SignupTitleAndTextField(
-                    title: "Professional",
-                    hintText: "Professional Life",
-                    validate: (value) {},
-                    controller: professionalController,
-                    fieldSize: "full",
-                  ),
+                  const TextfieldTags(title: "Professional"),
                 ],
               ),
             ),

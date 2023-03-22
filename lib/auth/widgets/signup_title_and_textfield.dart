@@ -62,10 +62,11 @@ class _SignupTitleAndTextFieldState extends State<SignupTitleAndTextField> {
                         ))
                     : null,
                 focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      color: Color(0xff007AFF),
-                    )),
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color(0xff007AFF),
+                  ),
+                ),
                 hintText: widget.hintText,
                 hintStyle: TextStyle(color: const Color(0xff007AFF).withOpacity(0.5), fontSize: 14),
                 enabledBorder: OutlineInputBorder(

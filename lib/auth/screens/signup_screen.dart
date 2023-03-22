@@ -66,10 +66,13 @@ class SignupScreen extends StatelessWidget {
                       controller: email,
                       title: "Your Email Address",
                       hintText: "Enter Your Email",
-                      validate: (value) {
-                        if (value!.isEmpty) {
-                          return "Enter a valid email";
-                        }
+                      validate: (email) {
+                        if (email == null || email.isEmpty) return 'E-mail address is required.';
+                        String pattern = r'\w+@\w+\.\w+';
+                        RegExp regex = RegExp(pattern);
+                        if (!regex.hasMatch(email)) return 'Invalid E-mail Address format.';
+
+                        return null;
                       },
                     ),
                     SignupTitleAndTextField(
