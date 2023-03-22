@@ -15,40 +15,43 @@ class UserProfilePicture extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(clipBehavior: Clip.none, children: [
-      ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.15,
-          width: MediaQuery.of(context).size.width * 0.3,
-          child: context.watch<AuthProvider>().file != null
-              ? Container(
-                  child: Image(
-                    image: FileImage(File(context.watch<AuthProvider>().file!.path)),
-                    fit: BoxFit.cover,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.15,
+            width: MediaQuery.of(context).size.width * 0.3,
+            child: context.watch<AuthProvider>().file != null
+                ? Container(
+                    child: Image(
+                      image: FileImage(File(context.watch<AuthProvider>().file!.path)),
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : Container(
+                    color: Colors.amber,
                   ),
-                )
-              : Container(
-                  color: Colors.amber,
-                ),
+          ),
         ),
-      ),
-      Positioned(
-          bottom: -5,
-          right: -5,
-          child: GestureDetector(
-            onTap: () async {
-              final ImagePicker imagePicker = ImagePicker();
-              final file = await imagePicker.pickImage(source: ImageSource.camera, imageQuality: 20);
-              if (file != null) {
-                context.read<AuthProvider>().setUserImageFile(file);
-              }
-            },
-            child: CircleAvatar(
-              backgroundColor: Colors.blue,
-              child: Image.asset("assets/camera.png"),
-            ),
-          ))
-    ]);
+        Positioned(
+            bottom: -5,
+            right: -5,
+            child: GestureDetector(
+              onTap: () async {
+                final ImagePicker imagePicker = ImagePicker();
+                final file = await imagePicker.pickImage(source: ImageSource.camera, imageQuality: 20);
+                if (file != null) {
+                  context.read<AuthProvider>().setUserImageFile(file);
+                }
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.blue,
+                child: Image.asset("assets/camera.png"),
+              ),
+            ))
+      ],
+    );
   }
 }

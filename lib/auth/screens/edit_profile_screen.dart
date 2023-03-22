@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/widgets/image_avatar.dart';
+import 'package:social_app/auth/widgets/personal_field.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';
 import 'package:social_app/auth/widgets/textfield_tags.dart';
 
@@ -98,6 +99,7 @@ class EditProfileScreen extends StatelessWidget {
                     ],
                   ),
                   const TextfieldTags(title: "Professional"),
+                  const PersonalField(title: "Personal")
                 ],
               ),
             ),
