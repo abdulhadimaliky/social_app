@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 
 class TextfieldTags extends StatefulWidget {
-  const TextfieldTags({Key? key, required this.title}) : super(key: key);
+  const TextfieldTags({Key? key, required this.title, required this.initialList}) : super(key: key);
 
   final String title;
+  final List<String>? initialList;
 
   @override
   State<TextfieldTags> createState() => _TextfieldTagsState();
@@ -107,13 +108,7 @@ class _TextfieldTagsState extends State<TextfieldTags> {
           textEditingController: ttec,
           focusNode: tfn,
           textfieldTagsController: _controller,
-          initialTags: const [
-            'Work Experience',
-            'Niche',
-            'Target',
-            'Education',
-            'Products',
-          ],
+          initialTags: widget.initialList,
           textSeparators: const [' ', ','],
           letterCase: LetterCase.normal,
           validator: (String tag) {

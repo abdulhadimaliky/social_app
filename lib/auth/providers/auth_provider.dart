@@ -22,4 +22,14 @@ class AuthProvider extends ChangeNotifier {
     file = sentFile;
     notifyListeners();
   }
+
+  Future<void> submitForm(
+      {required String description,
+      required String jobDetails,
+      required String location,
+      required String profession,
+      required String userName,
+      required String years}) async {
+    await AuthRepo().submitForm(description, jobDetails, location, profession, userName, years);
+  }
 }
