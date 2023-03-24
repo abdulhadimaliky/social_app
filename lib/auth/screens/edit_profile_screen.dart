@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/image_avatar.dart';
 import 'package:social_app/auth/widgets/personal_field.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';
@@ -28,17 +29,7 @@ class EditProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.arrow_back),
-                      ),
-                      const Text("Edit Profile"),
-                      const SizedBox(width: 50)
-                    ],
-                  ),
+                  const Header(screenTitle: "Edit Profile"),
                   Center(
                     child: UserProfilePicture(file: Provider.of<AuthProvider>(context).file),
                   ),
