@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/auth/screens/profile_screen.dart';
 import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/image_avatar.dart';
 import 'package:social_app/auth/widgets/personal_field.dart';
@@ -117,7 +118,7 @@ class EditProfileScreen extends StatelessWidget {
                                   userName: nameController.text,
                                   years: jobYearsController.text,
                                 );
-                            print("form submitted");
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileScreen()));
                           },
                           child: const Text(
                             "Save",

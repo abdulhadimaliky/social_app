@@ -29,11 +29,10 @@ class AuthRepo {
 
   Future<String?> uploadUserProfileImage() async {
     if (file != null) {
-      final task = await firebaseStorage.ref("users/${file!.name}").putFile(
-            File(file!.path),
-          );
+      final task = await firebaseStorage.ref("users/${file!.name}").putFile(File(file!.path));
 
       return await task.ref.getDownloadURL();
+      // print(url);
     }
   }
 
@@ -51,5 +50,12 @@ class AuthRepo {
     );
 
     await firestore.collection("userData").doc(FirebaseAuth.instance.currentUser!.uid).set(user!.toJson());
+  }
+
+  Future<void> checkUserInDB() async {
+    final snapshot = await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).get();
+    if (snapshot.exists) {
+      user = UserModel.fromJson(snapshot.data()!);
+    }
   }
 }

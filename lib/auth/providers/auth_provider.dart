@@ -4,11 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/repo/auth_repo.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   XFile? file;
+
+  UserModel? user;
 
   Future<void> signin(String email, String password) async {
     await AuthRepo().signin(email, password);
@@ -31,5 +34,10 @@ class AuthProvider extends ChangeNotifier {
       required String userName,
       required String years}) async {
     await AuthRepo().submitForm(description, jobDetails, location, profession, userName, years);
+  }
+
+  Future<void> checkUserInDB() async {
+    await AuthRepo().checkUserInDB();
+    notifyListeners();
   }
 }
