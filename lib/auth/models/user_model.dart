@@ -1,7 +1,7 @@
 class UserModel {
   final String userUid;
   final String userName;
-  final String profilePicture;
+  final String? profilePicture;
   final String profession;
   final String years;
   final String description;

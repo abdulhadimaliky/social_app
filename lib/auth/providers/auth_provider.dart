@@ -26,6 +26,14 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<String?> uploadUserProfileImage() async {
+    if (file != null) {
+      final task = await firebaseStorage.ref("users/${file!.name}").putFile(File(file!.path));
+      final url = await task.ref.getDownloadURL();
+      return url;
+    }
+  }
+
   Future<void> submitForm(
       {required String description,
       required String jobDetails,
@@ -33,7 +41,8 @@ class AuthProvider extends ChangeNotifier {
       required String profession,
       required String userName,
       required String years}) async {
-    await AuthRepo().submitForm(description, jobDetails, location, profession, userName, years);
+    await AuthRepo()
+        .submitForm(await uploadUserProfileImage(), description, jobDetails, location, profession, userName, years);
   }
 
   Future<void> checkUserInDB() async {
