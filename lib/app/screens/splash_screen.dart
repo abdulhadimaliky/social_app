@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/screens/edit_profile_screen.dart';
-import 'package:social_app/auth/screens/profile_screen.dart';
+import 'package:social_app/auth/screens/people_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (context.read<AuthProvider>().user == null) {
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditProfileScreen()));
       } else {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileScreen()));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PeopleScreen()));
       }
     } else {
       Navigator.of(context).push(MaterialPageRoute(builder: (conext) => const OnboardingScreen()));
