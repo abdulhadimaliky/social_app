@@ -11,8 +11,6 @@ class AuthRepo {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
-  XFile? file;
-
   UserModel? user;
 
   Future<UserCredential> createUser(String email, String password) async {
@@ -27,19 +25,18 @@ class AuthRepo {
     }
   }
 
-//   Future<String?> uploadUserProfileImage1() async{
-//   if(file!=null){
-//     final task = await firebaseStorage.ref("users/${file?.name}").putFile(File(file!.path));
-//     final url = await task.ref.getDownloadURL();
-//     return url;
-//   }
-// }
+  Future<String?> uploadUserProfileImage(XFile? file) async {
+    if (file != null) {
+      final task = await firebaseStorage.ref("users/${file.name}").putFile(File(file.path));
+      final url = await task.ref.getDownloadURL();
+      return url;
+    }
+  }
 
   Future<void> submitForm(String? profilePicture, String description, String jobDetails, String location,
       String profession, String userName, String years) async {
     user = UserModel(
       profilePicture: profilePicture,
-      // profilePicture: await uploadUserProfileImage(),
       description: description,
       jobDetails: jobDetails,
       location: location,
