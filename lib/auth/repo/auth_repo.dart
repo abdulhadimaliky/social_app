@@ -55,4 +55,8 @@ class AuthRepo {
       user = UserModel.fromJson(snapshot.data()!);
     }
   }
+
+  Future<void> signout() async {
+    await firebaseAuth.signOut();
+  }
 }

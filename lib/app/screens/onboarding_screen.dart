@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:social_app/auth/screens/signin_screen.dart';
@@ -46,13 +47,18 @@ class OnboardingScreen extends StatelessWidget {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => SigninScreen(),
-                      ),
-                    );
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SigninScreen(),
+                        ));
                   },
                   child: const Text("Sign In")),
+              // TextButton(
+              //     onPressed: () {
+              //       FirebaseAuth.instance.signOut();
+              //     },
+              //     child: const Text("Log Out"))
             ],
           ),
         ),

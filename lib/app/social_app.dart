@@ -5,6 +5,7 @@ import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/app/screens/splash_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/screens/edit_profile_screen.dart';
+import 'package:social_app/auth/screens/people_screen.dart';
 
 class SocialApp extends StatelessWidget {
   SocialApp({super.key});
@@ -20,7 +21,7 @@ class SocialApp extends StatelessWidget {
       child: MaterialApp(
         theme: ThemeData(fontFamily: "SFProText"),
         debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+        home: FirebaseAuth.instance.currentUser == null ? const OnboardingScreen() : const PeopleScreen(),
       ),
     );
   }

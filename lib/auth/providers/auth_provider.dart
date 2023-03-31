@@ -45,4 +45,8 @@ class AuthProvider extends ChangeNotifier {
     await AuthRepo().checkUserInDB();
     notifyListeners();
   }
+
+  Future<void> signout() async {
+    await AuthRepo().signout();
+  }
 }

@@ -36,8 +36,8 @@ class _SignupTitleAndTextFieldState extends State<SignupTitleAndTextField> {
                 ? MediaQuery.of(context).size.width
                 : MediaQuery.of(context).size.width * 0.42,
             child: TextFormField(
-              maxLines: 5,
-              minLines: 1,
+              // maxLines: 5,
+              // minLines: 1,
               onTap: () {
                 if (widget.obscure == true) {
                   setState(() {
