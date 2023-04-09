@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
@@ -6,8 +5,19 @@ import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
 
-class PeopleScreen extends StatelessWidget {
+class PeopleScreen extends StatefulWidget {
   const PeopleScreen({super.key});
+
+  @override
+  State<PeopleScreen> createState() => _PeopleScreenState();
+}
+
+class _PeopleScreenState extends State<PeopleScreen> {
+  @override
+  void initState() {
+    context.read<AuthProvider>().getRecommendations();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +57,17 @@ class PeopleScreen extends StatelessWidget {
                 ),
               ),
             ),
+            ...context.watch<AuthProvider>().recommendations!.map((e) => ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(e.profilePicture!),
+                  ),
+                  title: Text(e.userName),
+                  subtitle: Text(e.profession),
+                  trailing: ElevatedButton(
+                    child: const Text("Follow"),
+                    onPressed: () {},
+                  ),
+                ))
           ],
         ),
       ),

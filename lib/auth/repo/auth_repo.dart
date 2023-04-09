@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:social_app/auth/providers/auth_provider.dart';
 
 class AuthRepo {
   final firebaseAuth = FirebaseAuth.instance;
@@ -58,5 +60,11 @@ class AuthRepo {
 
   Future<void> signout() async {
     await firebaseAuth.signOut();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getRecommendations() async {
+    final getRecs = await FirebaseFirestore.instance.collection("userData").get();
+
+    return getRecs;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/repo/auth_repo.dart';
+import 'package:social_app/auth/screens/edit_profile_screen.dart';
 import 'package:social_app/auth/screens/signin_screen.dart';
 import 'package:social_app/auth/widgets/primary_button.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';
@@ -95,6 +96,7 @@ class SignupScreen extends StatelessWidget {
                         } else {
                           print("enter valid data");
                         }
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditProfileScreen()));
                       },
                       title: "Sign up",
                     ),

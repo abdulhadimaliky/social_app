@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ class AuthProvider extends ChangeNotifier {
   XFile? file;
 
   UserModel? user;
+
+  List<UserModel>? recommendations = [];
 
   Future<void> signin(String email, String password) async {
     await AuthRepo().signin(email, password);
@@ -48,5 +51,16 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> signout() async {
     await AuthRepo().signout();
+  }
+
+  Future<void> getRecommendations() async {
+    recommendations!.clear();
+    final recs = await AuthRepo().getRecommendations();
+
+    for (final doc in recs.docs) {
+      recommendations!.add(UserModel.fromJson(doc.data()));
+    }
+
+    notifyListeners();
   }
 }
