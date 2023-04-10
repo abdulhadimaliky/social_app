@@ -1,12 +1,10 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/repo/auth_repo.dart';
+import 'package:social_app/auth/widgets/add_button.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
@@ -62,5 +60,10 @@ class AuthProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future<void> getUserById(String id) async {
+    final receivedUser = await AuthRepo().getUserById(id);
+    UserModel.fromJson(receivedUser.data()!);
   }
 }

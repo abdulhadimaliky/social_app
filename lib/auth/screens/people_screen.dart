@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/auth/screens/user_profile_screen.dart';
 import 'package:social_app/auth/widgets/add_button.dart';
 import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
@@ -23,6 +24,46 @@ class _PeopleScreenState extends State<PeopleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screens = [
+      const Center(child: Text("Home")),
+      const Center(child: Text("notifications")),
+      const Center(child: Text("Add")),
+      SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.695,
+          child: Column(
+            children: [
+              ...context.watch<AuthProvider>().recommendations!.map((e) => Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          await context.read<AuthProvider>().getUserById(e.userUid);
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(builder: (context) => UserProfileScreen(userId: e)));
+                        },
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(e.profilePicture!),
+                          ),
+                          title: Text(e.userName),
+                          subtitle: Text(e.profession),
+                          trailing: const AddButton(),
+                        ),
+                      ),
+                      const Divider(
+                        height: 5,
+                        thickness: 1,
+                        indent: 15,
+                        endIndent: 15,
+                      ),
+                    ],
+                  )),
+            ],
+          ),
+        ),
+      ),
+      const Center(child: Text("Profile")),
+    ];
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade50,
@@ -59,33 +100,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 ),
               ),
             ),
-            SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.678,
-                child: Column(
-                  children: [
-                    ...context.watch<AuthProvider>().recommendations!.map((e) => Column(
-                          children: [
-                            ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage: NetworkImage(e.profilePicture!),
-                              ),
-                              title: Text(e.userName),
-                              subtitle: Text(e.profession),
-                              trailing: const AddButton(),
-                            ),
-                            const Divider(
-                              height: 5,
-                              thickness: 1,
-                              indent: 15,
-                              endIndent: 15,
-                            ),
-                          ],
-                        )),
-                  ],
-                ),
-              ),
-            ),
+            screens[bottomNavBarIndex],
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
