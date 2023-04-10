@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/auth/widgets/add_button.dart';
 import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
 
@@ -57,17 +58,53 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 ),
               ),
             ),
-            ...context.watch<AuthProvider>().recommendations!.map((e) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(e.profilePicture!),
+            SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.678,
+                child: Column(
+                  children: [
+                    ...context.watch<AuthProvider>().recommendations!.map((e) => Column(
+                          children: [
+                            ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(e.profilePicture!),
+                              ),
+                              title: Text(e.userName),
+                              subtitle: Text(e.profession),
+                              trailing: const AddButton(),
+                            ),
+                            const Divider(
+                              height: 5,
+                              thickness: 1,
+                              indent: 15,
+                              endIndent: 15,
+                            ),
+                          ],
+                        )),
+                  ],
+                ),
+              ),
+            ),
+            BottomNavigationBar(items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.black,
                   ),
-                  title: Text(e.userName),
-                  subtitle: Text(e.profession),
-                  trailing: ElevatedButton(
-                    child: const Text("Follow"),
-                    onPressed: () {},
-                  ),
-                ))
+                  label: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.notifications, color: Colors.black), label: ""),
+              BottomNavigationBarItem(
+                  icon: CircleAvatar(
+                      backgroundColor: Colors.black,
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.white,
+                        size: 20,
+                      )),
+                  label: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.black), label: ""),
+              BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.black), label: ""),
+            ])
           ],
         ),
       ),
