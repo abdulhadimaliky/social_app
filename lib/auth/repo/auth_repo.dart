@@ -63,7 +63,10 @@ class AuthRepo {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getRecommendations() async {
-    final getRecs = await FirebaseFirestore.instance.collection("userData").get();
+    final getRecs = await FirebaseFirestore.instance
+        .collection("userData")
+        .where("userUid", isNotEqualTo: firebaseAuth.currentUser!.uid)
+        .get();
 
     return getRecs;
   }

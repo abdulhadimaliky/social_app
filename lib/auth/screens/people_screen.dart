@@ -14,6 +14,7 @@ class PeopleScreen extends StatefulWidget {
 }
 
 class _PeopleScreenState extends State<PeopleScreen> {
+  int bottomNavBarIndex = 0;
   @override
   void initState() {
     context.read<AuthProvider>().getRecommendations();
@@ -85,26 +86,21 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 ),
               ),
             ),
-            BottomNavigationBar(items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                  label: ""),
-              BottomNavigationBarItem(icon: Icon(Icons.notifications, color: Colors.black), label: ""),
-              BottomNavigationBarItem(
-                  icon: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      )),
-                  label: ""),
-              BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.black), label: ""),
-              BottomNavigationBarItem(icon: Icon(Icons.account_circle, color: Colors.black), label: ""),
-            ])
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: bottomNavBarIndex,
+          onTap: (index) => setState(() {
+            bottomNavBarIndex = index;
+          }),
+          // selectedItemColor: Colors.amber,
+          selectedIconTheme: const IconThemeData(color: Colors.amber),
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.black), label: ""),
+            BottomNavigationBarItem(icon: Icon(Icons.notifications, color: Colors.black), label: ""),
+            BottomNavigationBarItem(icon: Icon(Icons.add, color: Colors.black), label: ""),
+            BottomNavigationBarItem(icon: Icon(Icons.search, color: Colors.black), label: ""),
+            BottomNavigationBarItem(icon: Icon(Icons.person, color: Colors.black), label: ""),
           ],
         ),
       ),
