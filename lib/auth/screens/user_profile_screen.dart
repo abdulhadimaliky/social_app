@@ -59,11 +59,7 @@ class UserProfileScreen extends StatelessWidget {
                       const Text("Followers"),
                     ],
                   ),
-                  Column(
-                    children: const [
-                      MyDivider(),
-                    ],
-                  ),
+                  const MyDivider(),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -86,15 +82,11 @@ class MyDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 20.0,
-      child: Center(
-        child: Container(
-          // margin: const EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
-          height: 5.0,
-          color: Colors.red,
-        ),
-      ),
+    return VerticalDivider(
+      indent: 10,
+      endIndent: 10,
+      thickness: 1,
+      color: Colors.grey.shade300,
     );
   }
 }
