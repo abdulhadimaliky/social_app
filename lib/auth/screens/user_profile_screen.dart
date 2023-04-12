@@ -1,24 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:social_app/auth/widgets/header.dart';
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key, required this.userId});
+  const UserProfileScreen({super.key, required this.user});
 
-  final UserModel userId;
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(userId.profilePicture!),
-          ),
-          Text(userId.userName),
-          Text(userId.profession),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            const Header(screenTitle: "Profile"),
+            ListTile(
+              leading: CircleAvatar(
+                radius: 40,
+                backgroundImage: NetworkImage(user.profilePicture!),
+              ),
+              title: Text(user.userName),
+              subtitle: Text("@${user.userName}"),
+              trailing: Container(
+                  height: 40,
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Colors.blue),
+                  child: TextButton(
+                    child: const Text(
+                      "Add",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {},
+                  )),
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.85,
+              height: MediaQuery.of(context).size.height * 0.1,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                border: Border.all(color: Colors.grey.shade300),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(user.connections.toString()),
+                      const Text("Connections"),
+                    ],
+                  ),
+                  const MyDivider(),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(user.followers.toString()),
+                      const Text("Followers"),
+                    ],
+                  ),
+                  Column(
+                    children: const [
+                      MyDivider(),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(user.connections.toString()),
+                      const Text("Posts created"),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MyDivider extends StatelessWidget {
+  const MyDivider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 20.0,
+      child: Center(
+        child: Container(
+          // margin: const EdgeInsetsDirectional.only(start: 1.0, end: 1.0),
+          height: 5.0,
+          color: Colors.red,
+        ),
       ),
     );
   }

@@ -62,8 +62,8 @@ class AuthProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUserById(String id) async {
-    final receivedUser = await AuthRepo().getUserById(id);
-    UserModel.fromJson(receivedUser.data()!);
-  }
+  // Future<void> getUserById(String id) async {
+  //   final receivedUser = await AuthRepo().getUserById(id);
+  //   UserModel.fromJson(receivedUser.data()!);
+  // }
 }

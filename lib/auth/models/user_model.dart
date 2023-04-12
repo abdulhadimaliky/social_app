@@ -7,8 +7,12 @@ class UserModel {
   final String description;
   final String jobDetails;
   final String location;
+  final int connections;
+  final int followers;
 
   const UserModel({
+    this.followers = 0,
+    this.connections = 0,
     required this.description,
     required this.jobDetails,
     required this.location,
@@ -29,11 +33,14 @@ class UserModel {
       "profilePicture": profilePicture,
       "years": years,
       "userUid": userUid,
+      "connections": connections,
+      "followers": followers
     };
   }
 
   static UserModel fromJson(Map<String, dynamic> json) {
     return UserModel(
+      connections: json["connections"],
       description: json["description"],
       jobDetails: json["jobDetails"],
       location: json["location"],
@@ -42,6 +49,7 @@ class UserModel {
       userName: json["userName"],
       years: json["years"],
       userUid: json["userUid"],
+      followers: json["followers"],
     );
   }
 }

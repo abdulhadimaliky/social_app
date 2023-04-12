@@ -71,8 +71,8 @@ class AuthRepo {
     return getRecs;
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(String id) async {
-    final receivedUser = await firestore.collection("userData").doc(id).get();
-    return receivedUser;
-  }
+  // Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(String id) async {
+  //   final receivedUser = await firestore.collection("userData").doc(id).get();
+  //   return receivedUser;
+  // }
 }
