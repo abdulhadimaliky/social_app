@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/widgets/header.dart';
@@ -13,6 +14,7 @@ class UserProfileScreen extends StatelessWidget {
       child: DefaultTabController(
         length: 2,
         child: Scaffold(
+          backgroundColor: Colors.grey.shade50,
           body: Column(
             children: [
               const Header(screenTitle: "Profile"),
@@ -88,10 +90,10 @@ class UserProfileScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const Expanded(
+              Expanded(
                 child: TabBarView(children: [
-                  Center(child: Text("Hi")),
-                  Center(child: Text("Hello")),
+                  const Center(child: Text("Hi")),
+                  DetailsTab(user: user),
                 ]),
               )
             ],
@@ -99,6 +101,51 @@ class UserProfileScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class DetailsTab extends StatelessWidget {
+  const DetailsTab({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
+
+  final UserModel user;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: Column(
+        children: [
+          Text(user.description),
+          Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: Column(
+              children: [
+                ListTile(
+                  leading: Image.asset("assets/Image.png"),
+                  title: Text(user.jobDetails),
+                  subtitle: Text(user.profession),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text("${user.years} - present"),
+                      const SizedBox(),
+                    ],
+                  ),
+                ),
+                Image.asset("assets/Pagination1.png")
+              ],
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }
 
