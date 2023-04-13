@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/repo/auth_repo.dart';
-import 'package:social_app/auth/widgets/add_button.dart';
 
 class AuthProvider extends ChangeNotifier {
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   XFile? file;
 
   UserModel? user;
+
+  UserModel? currentUserData;
 
   List<UserModel>? recommendations = [];
 
@@ -60,6 +61,15 @@ class AuthProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  Future<void> getCurrentUserData() async {
+    final snapshot = await AuthRepo().getCurrentUserData();
+
+    if (snapshot.exists) {
+      currentUserData = UserModel.fromJson(snapshot.data()!);
+      notifyListeners();
+    }
   }
 
   // Future<void> getUserById(String id) async {
