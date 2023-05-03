@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/widgets/header.dart';
@@ -11,11 +10,11 @@ class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          backgroundColor: Colors.grey.shade50,
-          body: Column(
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        body: DefaultTabController(
+          length: 2,
+          child: Column(
             children: [
               const Header(screenTitle: "Profile"),
               ListTile(

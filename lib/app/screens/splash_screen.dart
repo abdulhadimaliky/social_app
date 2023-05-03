@@ -5,7 +5,7 @@ import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/repo/auth_repo.dart';
 import 'package:social_app/auth/screens/edit_profile_screen.dart';
-import 'package:social_app/auth/screens/people_screen.dart';
+import 'package:social_app/dashboard/screens/people_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

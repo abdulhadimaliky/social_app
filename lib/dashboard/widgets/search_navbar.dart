@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
-import 'package:social_app/auth/screens/user_profile_screen.dart';
-import 'package:social_app/auth/widgets/add_button.dart';
+import 'package:social_app/dashboard/screens/user_profile_screen.dart';
+import 'package:social_app/dashboard/widgets/add_button.dart';
 import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
 
@@ -63,7 +63,6 @@ class _SearchNavBarState extends State<SearchNavBar> {
                   children: [
                     GestureDetector(
                       onTap: () async {
-                        // await context.read<AuthProvider>().getUserById(e.userUid);
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserProfileScreen(user: e)));
                       },
                       child: ListTile(
