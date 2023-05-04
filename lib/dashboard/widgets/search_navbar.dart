@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/screens/user_profile_screen.dart';
 import 'package:social_app/dashboard/widgets/add_button.dart';
 import 'package:social_app/auth/widgets/header.dart';
@@ -17,7 +18,7 @@ class SearchNavBar extends StatefulWidget {
 class _SearchNavBarState extends State<SearchNavBar> {
   @override
   void initState() {
-    context.read<AuthProvider>().getRecommendations();
+    context.read<DashboardProvider>().getRecommendations();
     super.initState();
   }
 
@@ -59,7 +60,7 @@ class _SearchNavBarState extends State<SearchNavBar> {
                 ),
               ),
             ),
-            ...context.watch<AuthProvider>().recommendations!.map((e) => Column(
+            ...context.watch<DashboardProvider>().recommendations!.map((e) => Column(
                   children: [
                     GestureDetector(
                       onTap: () async {

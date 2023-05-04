@@ -11,10 +11,6 @@ class AuthProvider extends ChangeNotifier {
 
   UserModel? user;
 
-  UserModel? currentUserData;
-
-  List<UserModel>? recommendations = [];
-
   Future<void> signin(String email, String password) async {
     await AuthRepo().signin(email, password);
   }
@@ -51,29 +47,4 @@ class AuthProvider extends ChangeNotifier {
   Future<void> signout() async {
     await AuthRepo().signout();
   }
-
-  Future<void> getRecommendations() async {
-    recommendations!.clear();
-    final recs = await AuthRepo().getRecommendations();
-
-    for (final doc in recs.docs) {
-      recommendations!.add(UserModel.fromJson(doc.data()));
-    }
-
-    notifyListeners();
-  }
-
-  Future<void> getCurrentUserData() async {
-    final snapshot = await AuthRepo().getCurrentUserData();
-
-    if (snapshot.exists) {
-      currentUserData = UserModel.fromJson(snapshot.data()!);
-      notifyListeners();
-    }
-  }
-
-  // Future<void> getUserById(String id) async {
-  //   final receivedUser = await AuthRepo().getUserById(id);
-  //   UserModel.fromJson(receivedUser.data()!);
-  // }
 }

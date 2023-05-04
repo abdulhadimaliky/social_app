@@ -3,9 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/screens/user_profile_screen.dart';
 import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
+import 'package:social_app/dashboard/widgets/add_post.dart';
 import 'package:social_app/dashboard/widgets/search_navbar.dart';
 
 class PeopleScreen extends StatefulWidget {
@@ -18,7 +20,7 @@ class PeopleScreen extends StatefulWidget {
 class _PeopleScreenState extends State<PeopleScreen> {
   @override
   void initState() {
-    context.read<AuthProvider>().getCurrentUserData();
+    context.read<DashboardProvider>().getCurrentUserData();
     super.initState();
   }
 
@@ -29,9 +31,9 @@ class _PeopleScreenState extends State<PeopleScreen> {
     final screens = [
       const HomeTab(),
       const Center(child: Text("notifications")),
-      const Center(child: Text("Add")),
+      AddPost(user: context.watch<DashboardProvider>().currentUserData!),
       const SearchNavBar(),
-      MyProfileScreen(user: context.watch<AuthProvider>().currentUserData!),
+      MyProfileScreen(user: context.watch<DashboardProvider>().currentUserData!),
     ];
     return SafeArea(
       child: Scaffold(

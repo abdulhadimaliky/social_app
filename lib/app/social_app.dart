@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/screens/people_screen.dart';
 
 class SocialApp extends StatelessWidget {
@@ -15,6 +16,7 @@ class SocialApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
+        ChangeNotifierProvider(create: (context) => DashboardProvider())
       ],
       child: MaterialApp(
         theme: ThemeData(fontFamily: "SFProText"),
