@@ -31,4 +31,18 @@ class DashboardProvider extends ChangeNotifier {
   //   final receivedUser = await AuthRepo().getUserById(id);
   //   UserModel.fromJson(receivedUser.data()!);
   // }
+
+  Future<void> submitPost(
+    int postComments,
+    String postDescription,
+    int postLikes,
+    String postTitle,
+  ) async {
+    await DashboardRepo().submitPost(
+      postComments,
+      postDescription,
+      postLikes,
+      postTitle,
+    );
+  }
 }

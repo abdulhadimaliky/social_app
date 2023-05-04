@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
 
 class AuthRepo {
-  final firebaseAuth = FirebaseAuth.instance;
+  final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 

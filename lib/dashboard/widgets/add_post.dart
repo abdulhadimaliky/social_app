@@ -19,6 +19,9 @@ class _AddPostState extends State<AddPost> {
     super.initState();
   }
 
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,7 +37,16 @@ class _AddPostState extends State<AddPost> {
                   },
                   icon: const Icon(Icons.close)),
               const Text("Create a Post"),
-              TextButton(onPressed: () {}, child: const Text("Post"))
+              TextButton(
+                  onPressed: () {
+                    context.read<DashboardProvider>().submitPost(
+                          0,
+                          descriptionController.text,
+                          0,
+                          titleController.text,
+                        );
+                  },
+                  child: const Text("Post"))
             ],
           ),
           ListTile(
@@ -54,6 +66,7 @@ class _AddPostState extends State<AddPost> {
             trailing: const SizedBox(width: 180),
           ),
           TextField(
+            controller: titleController,
             decoration: InputDecoration(
               fillColor: Colors.grey.shade100,
               filled: true,
@@ -74,6 +87,7 @@ class _AddPostState extends State<AddPost> {
             ),
           ),
           TextField(
+            controller: descriptionController,
             maxLines: 5,
             textAlignVertical: TextAlignVertical.top,
             // textAlign: TextAlign.end,
