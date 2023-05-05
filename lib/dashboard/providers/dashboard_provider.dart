@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/repo/dashboard_repo.dart';
 
 class DashboardProvider extends ChangeNotifier {
   UserModel? currentUserData;
 
   List<UserModel>? recommendations = [];
+  List<PostModel>? myPosts = [];
 
   Future<void> getRecommendations() async {
     recommendations!.clear();
@@ -44,5 +46,14 @@ class DashboardProvider extends ChangeNotifier {
       postLikes,
       postTitle,
     );
+  }
+
+  Future<void> getMyPostsFromDB() async {
+    myPosts!.clear();
+    final myPost = await DashboardRepo().getMyPostsFromDB();
+    for (final doc in myPost.docs) {
+      myPosts!.add(PostModel.fromJson(doc.data()));
+    }
+    notifyListeners();
   }
 }

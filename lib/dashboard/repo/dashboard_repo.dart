@@ -45,4 +45,11 @@ class DashboardRepo {
 
     await firestore.collection("Posts").doc(myPostId).set(post.toJson());
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getMyPostsFromDB() async {
+    final getMyPosts =
+        await firestore.collection("Posts").where("postUserId", isEqualTo: firebaseAuth.currentUser!.uid).get();
+
+    return getMyPosts;
+  }
 }
