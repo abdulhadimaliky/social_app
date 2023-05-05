@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
@@ -44,6 +46,7 @@ class _AddPostState extends State<AddPost> {
                           descriptionController.text,
                           0,
                           titleController.text,
+                          widget.user.userName,
                         );
                   },
                   child: const Text("Post"))

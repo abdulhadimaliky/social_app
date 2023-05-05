@@ -34,11 +34,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
-        body: Column(
-          children: [
-            screens[bottomNavBarIndex],
-          ],
-        ),
+        body: screens[bottomNavBarIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: bottomNavBarIndex,
           onTap: (index) => setState(() {

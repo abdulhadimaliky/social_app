@@ -8,6 +8,7 @@ class DashboardProvider extends ChangeNotifier {
 
   List<UserModel>? recommendations = [];
   List<PostModel>? myPosts = [];
+  List<PostModel> allPosts = [];
 
   Future<void> getRecommendations() async {
     recommendations!.clear();
@@ -39,12 +40,15 @@ class DashboardProvider extends ChangeNotifier {
     String postDescription,
     int postLikes,
     String postTitle,
+    String userName,
   ) async {
     await DashboardRepo().submitPost(
       postComments,
       postDescription,
       postLikes,
       postTitle,
+      currentUserData!.profilePicture!,
+      userName,
     );
   }
 
@@ -53,6 +57,16 @@ class DashboardProvider extends ChangeNotifier {
     final myPost = await DashboardRepo().getMyPostsFromDB();
     for (final doc in myPost.docs) {
       myPosts!.add(PostModel.fromJson(doc.data()));
+    }
+    notifyListeners();
+  }
+
+  Future<void> getAllPosts() async {
+    allPosts.clear();
+    final post = await DashboardRepo().getAllPosts();
+
+    for (final doc in post.docs) {
+      allPosts.add(PostModel.fromJson(doc.data()));
     }
     notifyListeners();
   }

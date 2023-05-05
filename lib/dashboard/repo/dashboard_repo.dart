@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_app/common/services/id_service.dart';
@@ -32,6 +34,8 @@ class DashboardRepo {
     String postDescription,
     int postLikes,
     String postTitle,
+    String posterImageUrl,
+    String posterName,
   ) async {
     final myPostId = IdService.generateId();
     final post = PostModel(
@@ -41,8 +45,9 @@ class DashboardRepo {
       postLikes: postLikes,
       postTitle: postTitle,
       postUserId: firebaseAuth.currentUser!.uid,
+      posterImageUrl: posterImageUrl,
+      posterName: posterName,
     );
-
     await firestore.collection("Posts").doc(myPostId).set(post.toJson());
   }
 
@@ -51,5 +56,10 @@ class DashboardRepo {
         await firestore.collection("Posts").where("postUserId", isEqualTo: firebaseAuth.currentUser!.uid).get();
 
     return getMyPosts;
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getAllPosts() async {
+    final getAllPosts = await firestore.collection("Posts").get();
+    return getAllPosts;
   }
 }
