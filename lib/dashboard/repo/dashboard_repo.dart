@@ -47,19 +47,23 @@ class DashboardRepo {
       postUserId: firebaseAuth.currentUser!.uid,
       posterImageUrl: posterImageUrl,
       posterName: posterName,
+      createdAt: DateTime.now(),
     );
     await firestore.collection("Posts").doc(myPostId).set(post.toJson());
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getMyPostsFromDB() async {
-    final getMyPosts =
-        await firestore.collection("Posts").where("postUserId", isEqualTo: firebaseAuth.currentUser!.uid).get();
+    final getMyPosts = await firestore
+        .collection("Posts")
+        .where("postUserId", isEqualTo: firebaseAuth.currentUser!.uid)
+        .orderBy("createdAt", descending: true)
+        .get();
 
     return getMyPosts;
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getAllPosts() async {
-    final getAllPosts = await firestore.collection("Posts").get();
+    final getAllPosts = await firestore.collection("Posts").orderBy("createdAt", descending: true).get();
     return getAllPosts;
   }
 }

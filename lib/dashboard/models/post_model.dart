@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PostModel {
   final String postTitle;
   final String postDescription;
@@ -7,16 +9,19 @@ class PostModel {
   final String posterName;
   final String posterImageUrl;
   final int postComments;
+  final DateTime createdAt;
 
-  PostModel(
-      {required this.postComments,
-      required this.postDescription,
-      required this.postId,
-      required this.postLikes,
-      required this.postTitle,
-      required this.postUserId,
-      required this.posterImageUrl,
-      required this.posterName});
+  PostModel({
+    required this.postComments,
+    required this.postDescription,
+    required this.postId,
+    required this.postLikes,
+    required this.postTitle,
+    required this.postUserId,
+    required this.posterImageUrl,
+    required this.createdAt,
+    required this.posterName,
+  });
 
   Map<String, dynamic> toJson() {
     return {
@@ -28,6 +33,7 @@ class PostModel {
       "postComments": postComments,
       "posterImageUrl": posterImageUrl,
       "posterName": posterName,
+      "createdAt": createdAt
     };
   }
 
@@ -41,6 +47,7 @@ class PostModel {
       postUserId: json["postUserId"],
       posterImageUrl: json["posterImageUrl"],
       posterName: json["posterName"],
+      createdAt: (json['createdAt'] as Timestamp).toDate(),
     );
   }
 }

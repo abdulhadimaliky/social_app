@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/widgets/header.dart';
@@ -183,10 +184,9 @@ class PostCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ListTile(
-              leading: CircleAvatar(backgroundImage: NetworkImage(post.posterImageUrl)),
-              title: Text(post.posterName),
-              subtitle: Text(DateTime.now().toString()),
-            ),
+                leading: CircleAvatar(backgroundImage: NetworkImage(post.posterImageUrl)),
+                title: Text(post.posterName),
+                subtitle: Text(DateFormat.jm().format(post.createdAt))),
             Text(post.postDescription),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
