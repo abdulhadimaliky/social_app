@@ -5,7 +5,7 @@ import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/auth/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
-import 'package:social_app/dashboard/widgets/my_profile.dart';
+import 'package:social_app/dashboard/widgets/post_card.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({
@@ -61,12 +61,7 @@ class _HomeTabState extends State<HomeTab> {
         Expanded(
           child: SingleChildScrollView(
             child: Column(
-              children: [
-                ...context.watch<DashboardProvider>().allPosts.map((e) => SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.415,
-                      child: PostCard(post: e),
-                    ))
-              ],
+              children: [...context.watch<DashboardProvider>().allPosts.map((e) => PostCard(post: e))],
             ),
           ),
         ),

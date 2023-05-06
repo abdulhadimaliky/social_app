@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/widgets/header.dart';
-import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/screens/user_profile_screen.dart';
+import 'package:social_app/dashboard/widgets/post_card.dart';
 
 class MyProfile extends StatefulWidget {
   MyProfile({
@@ -145,69 +144,12 @@ class _MyProfileState extends State<MyProfile> {
               child: TabBarView(children: [
                 SingleChildScrollView(
                   child: Column(
-                    children: [
-                      ...context.watch<DashboardProvider>().myPosts!.map((e) => SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.415,
-                            child: PostCard(post: e),
-                          ))
-                    ],
+                    children: [...context.watch<DashboardProvider>().myPosts!.map((post) => PostCard(post: post))],
                   ),
                 ),
                 DetailsTab(user: widget.user),
               ]),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class PostCard extends StatelessWidget {
-  PostCard({
-    Key? key,
-    required this.post,
-  }) : super(key: key);
-
-  PostModel post;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ListTile(
-                leading: CircleAvatar(backgroundImage: NetworkImage(post.posterImageUrl)),
-                title: Text(post.posterName),
-                subtitle: Text(DateFormat.jm().format(post.createdAt))),
-            Text(post.postDescription),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  children: [
-                    const Icon(Icons.thumb_up_outlined),
-                    const SizedBox(width: 10),
-                    Text(post.postLikes.toString()),
-                  ],
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.comment),
-                    const SizedBox(width: 10),
-                    Text(post.postComments.toString()),
-                  ],
-                ),
-                const Icon(Icons.share)
-              ],
-            )
           ],
         ),
       ),

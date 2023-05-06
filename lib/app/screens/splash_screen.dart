@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
-import 'package:social_app/auth/repo/auth_repo.dart';
 import 'package:social_app/auth/screens/edit_profile_screen.dart';
 import 'package:social_app/dashboard/screens/people_screen.dart';
 
@@ -37,8 +36,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Opacity(
-        opacity: 0.5,
+      body: SizedBox(
+        height: double.infinity,
+        width: double.infinity,
         child: Image.asset(
           "assets/splash.jpg",
           fit: BoxFit.cover,

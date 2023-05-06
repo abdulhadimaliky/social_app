@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
@@ -24,17 +26,18 @@ class _PeopleScreenState extends State<PeopleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screens = [
-      const HomeTab(),
-      const Center(child: Text("notifications")),
-      AddPost(user: context.watch<DashboardProvider>().currentUserData!),
-      const SearchNavBar(),
-      MyProfile(user: context.watch<DashboardProvider>().currentUserData!),
-    ];
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
-        body: screens[bottomNavBarIndex],
+        body: context.watch<DashboardProvider>().currentUserData == null
+            ? const CircularProgressIndicator()
+            : [
+                const HomeTab(),
+                const Center(child: Text("notifications")),
+                AddPost(user: context.watch<DashboardProvider>().currentUserData!),
+                const SearchNavBar(),
+                MyProfile(user: context.watch<DashboardProvider>().currentUserData!),
+              ][bottomNavBarIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: bottomNavBarIndex,
           onTap: (index) => setState(() {

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:social_app/common/services/id_service.dart';
@@ -10,16 +8,14 @@ class DashboardRepo {
   final firestore = FirebaseFirestore.instance;
 
   Future<QuerySnapshot<Map<String, dynamic>>> getRecommendations() async {
-    final getRecs = await FirebaseFirestore.instance
-        .collection("userData")
-        .where("userUid", isNotEqualTo: firebaseAuth.currentUser!.uid)
-        .get();
+    final getRecs =
+        await firestore.collection("userData").where("userUid", isNotEqualTo: firebaseAuth.currentUser!.uid).get();
 
     return getRecs;
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getCurrentUserData() async {
-    final getRecs = await FirebaseFirestore.instance.collection("userData").doc(firebaseAuth.currentUser!.uid).get();
+    final getRecs = await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).get();
 
     return getRecs;
   }
@@ -32,7 +28,7 @@ class DashboardRepo {
   Future<void> submitPost(
     int postComments,
     String postDescription,
-    int postLikes,
+    List<String> likedBy,
     String postTitle,
     String posterImageUrl,
     String posterName,
@@ -42,7 +38,7 @@ class DashboardRepo {
       postComments: postComments,
       postDescription: postDescription,
       postId: myPostId,
-      postLikes: postLikes,
+      likedBy: likedBy,
       postTitle: postTitle,
       postUserId: firebaseAuth.currentUser!.uid,
       posterImageUrl: posterImageUrl,
@@ -65,5 +61,17 @@ class DashboardRepo {
   Future<QuerySnapshot<Map<String, dynamic>>> getAllPosts() async {
     final getAllPosts = await firestore.collection("Posts").orderBy("createdAt", descending: true).get();
     return getAllPosts;
+  }
+
+  Future<void> likePost(PostModel post, String userId) async {
+    await firestore.collection("Posts").doc(post.postId).update({
+      "likedBy": FieldValue.arrayUnion([userId])
+    });
+  }
+
+  Future<void> unlikePost(PostModel post, String userId) async {
+    await firestore.collection("Posts").doc(post.postId).update({
+      "likedBy": FieldValue.arrayRemove([userId])
+    });
   }
 }

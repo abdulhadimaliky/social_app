@@ -6,6 +6,8 @@ import 'package:social_app/dashboard/repo/dashboard_repo.dart';
 class DashboardProvider extends ChangeNotifier {
   UserModel? currentUserData;
 
+  final dashboardRepo = DashboardRepo();
+
   List<UserModel>? recommendations = [];
   List<PostModel>? myPosts = [];
   List<PostModel> allPosts = [];
@@ -22,7 +24,7 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   Future<void> getCurrentUserData() async {
-    final snapshot = await DashboardRepo().getCurrentUserData();
+    final snapshot = await dashboardRepo.getCurrentUserData();
 
     if (snapshot.exists) {
       currentUserData = UserModel.fromJson(snapshot.data()!);
@@ -45,7 +47,7 @@ class DashboardProvider extends ChangeNotifier {
     await DashboardRepo().submitPost(
       postComments,
       postDescription,
-      postLikes,
+      [],
       postTitle,
       currentUserData!.profilePicture!,
       userName,
@@ -54,7 +56,7 @@ class DashboardProvider extends ChangeNotifier {
 
   Future<void> getMyPostsFromDB() async {
     myPosts!.clear();
-    final myPost = await DashboardRepo().getMyPostsFromDB();
+    final myPost = await dashboardRepo.getMyPostsFromDB();
     for (final doc in myPost.docs) {
       myPosts!.add(PostModel.fromJson(doc.data()));
     }
@@ -63,10 +65,22 @@ class DashboardProvider extends ChangeNotifier {
 
   Future<void> getAllPosts() async {
     allPosts.clear();
-    final post = await DashboardRepo().getAllPosts();
+    final post = await dashboardRepo.getAllPosts();
 
     for (final doc in post.docs) {
       allPosts.add(PostModel.fromJson(doc.data()));
+    }
+    notifyListeners();
+  }
+
+  Future<void> likePost(PostModel selectedPost, String userId) async {
+    final indexOfPost = allPosts.indexWhere((element) => element.postId == selectedPost.postId);
+    if (selectedPost.likedBy.contains(userId)) {
+      await dashboardRepo.unlikePost(selectedPost, userId);
+      allPosts[indexOfPost].likedBy.removeWhere((element) => element == userId);
+    } else {
+      await dashboardRepo.likePost(selectedPost, userId);
+      allPosts[indexOfPost].likedBy.add(userId);
     }
     notifyListeners();
   }

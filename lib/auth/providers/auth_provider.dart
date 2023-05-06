@@ -38,7 +38,11 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> checkUserInDB() async {
-    await AuthRepo().checkUserInDB();
+    final snapshot = await AuthRepo().checkUserInDB();
+    if (snapshot.exists) {
+      user = UserModel.fromJson(snapshot.data()!);
+    }
+
     notifyListeners();
   }
 

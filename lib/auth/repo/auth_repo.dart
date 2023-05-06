@@ -49,11 +49,9 @@ class AuthRepo {
     await firestore.collection("userData").doc(FirebaseAuth.instance.currentUser!.uid).set(user!.toJson());
   }
 
-  Future<void> checkUserInDB() async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> checkUserInDB() async {
     final snapshot = await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).get();
-    if (snapshot.exists) {
-      user = UserModel.fromJson(snapshot.data()!);
-    }
+    return snapshot;
   }
 
   Future<void> signout() async {
