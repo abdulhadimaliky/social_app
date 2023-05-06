@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/widgets/header.dart';
+import 'package:social_app/dashboard/providers/dashboard_provider.dart';
+import 'package:social_app/dashboard/widgets/post_card.dart';
 
-class UserProfileScreen extends StatelessWidget {
+class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key, required this.user});
 
   final UserModel user;
+
+  @override
+  State<UserProfileScreen> createState() => _UserProfileScreenState();
+}
+
+class _UserProfileScreenState extends State<UserProfileScreen> {
+  @override
+  void initState() {
+    context.read<DashboardProvider>().getUserPostsFromDB(widget.user.userUid);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +34,10 @@ class UserProfileScreen extends StatelessWidget {
               ListTile(
                 leading: CircleAvatar(
                   radius: 40,
-                  backgroundImage: NetworkImage(user.profilePicture!),
+                  backgroundImage: NetworkImage(widget.user.profilePicture!),
                 ),
-                title: Text(user.userName),
-                subtitle: Text("@${user.userName}"),
+                title: Text(widget.user.userName),
+                subtitle: Text("@${widget.user.userName}"),
                 trailing: Container(
                     height: 40,
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -50,7 +64,7 @@ class UserProfileScreen extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(user.connections.toString()),
+                        Text(widget.user.connections.toString()),
                         const Text("Connections"),
                       ],
                     ),
@@ -58,7 +72,7 @@ class UserProfileScreen extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(user.followers.toString()),
+                        Text(widget.user.followers.toString()),
                         const Text("Followers"),
                       ],
                     ),
@@ -66,7 +80,7 @@ class UserProfileScreen extends StatelessWidget {
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(user.connections.toString()),
+                        Text(widget.user.connections.toString()),
                         const Text("Posts created"),
                       ],
                     ),
@@ -91,8 +105,22 @@ class UserProfileScreen extends StatelessWidget {
               ),
               Expanded(
                 child: TabBarView(children: [
-                  const Center(child: Text("Hi")),
-                  DetailsTab(user: user),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          ...context.watch<DashboardProvider>().usersPosts!.map((e) => PostCard(
+                                post: e,
+                                onLiked: (post) {
+                                  //TODO: TODO IMplement for user post.
+                                  // context.read<DashboardProvider>().
+                                },
+                              ))
+                        ],
+                      ),
+                    ),
+                  ),
+                  DetailsTab(user: widget.user),
                 ]),
               )
             ],

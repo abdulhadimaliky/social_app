@@ -9,8 +9,9 @@ class DashboardProvider extends ChangeNotifier {
   final dashboardRepo = DashboardRepo();
 
   List<UserModel>? recommendations = [];
-  List<PostModel>? myPosts = [];
+  List<PostModel> myPosts = [];
   List<PostModel> allPosts = [];
+  List<PostModel>? usersPosts = [];
 
   Future<void> getRecommendations() async {
     recommendations!.clear();
@@ -81,6 +82,27 @@ class DashboardProvider extends ChangeNotifier {
     } else {
       await dashboardRepo.likePost(selectedPost, userId);
       allPosts[indexOfPost].likedBy.add(userId);
+    }
+    notifyListeners();
+  }
+
+  Future<void> likeMyPost(PostModel selectedPost, String userId) async {
+    final indexOfPost = myPosts.indexWhere((element) => element.postId == selectedPost.postId);
+    if (selectedPost.likedBy.contains(userId)) {
+      await dashboardRepo.unlikePost(selectedPost, userId);
+      myPosts[indexOfPost].likedBy.removeWhere((element) => element == userId);
+    } else {
+      await dashboardRepo.likePost(selectedPost, userId);
+      myPosts[indexOfPost].likedBy.add(userId);
+    }
+    notifyListeners();
+  }
+
+  Future<void> getUserPostsFromDB(String userId) async {
+    usersPosts!.clear();
+    final usersPost = await dashboardRepo.getUserPostsFromDB(userId);
+    for (final doc in usersPost.docs) {
+      usersPosts!.add(PostModel.fromJson(doc.data()));
     }
     notifyListeners();
   }

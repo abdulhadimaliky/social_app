@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 
@@ -9,9 +8,11 @@ class PostCard extends StatelessWidget {
   const PostCard({
     Key? key,
     required this.post,
+    required this.onLiked,
   }) : super(key: key);
 
   final PostModel post;
+  final Function(PostModel post) onLiked;
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +56,12 @@ class PostCard extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        icon: post.likedBy.contains(context.read<DashboardProvider>().currentUserData!.userUid)
-                            ? const Icon(Icons.thumb_up, color: Colors.black)
-                            : const Icon(Icons.thumb_up_outlined, color: Colors.black),
-                        onPressed: () async {
-                          await context
-                              .read<DashboardProvider>()
-                              .likePost(post, context.read<DashboardProvider>().currentUserData!.userUid);
-                        },
-                      ),
+                          icon: post.likedBy.contains(context.read<DashboardProvider>().currentUserData!.userUid)
+                              ? const Icon(Icons.thumb_up, color: Colors.black)
+                              : const Icon(Icons.thumb_up_outlined, color: Colors.black),
+                          onPressed: () {
+                            onLiked(post);
+                          }),
                       const SizedBox(width: 10),
                       Text(post.likedBy.length.toString()),
                     ],

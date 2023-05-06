@@ -7,6 +7,7 @@ import 'package:social_app/auth/screens/edit_profile_screen.dart';
 import 'package:social_app/auth/widgets/primary_button.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';
 import 'package:social_app/auth/widgets/signup_with.dart';
+import 'package:social_app/dashboard/screens/people_screen.dart';
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -89,7 +90,12 @@ class _SigninScreenState extends State<SigninScreen> {
                         if (formKey.currentState!.validate()) {
                           try {
                             await context.read<AuthProvider>().signin(emailController.text, passwordController.text);
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                            final user = await context.read<AuthProvider>().checkUserInDB();
+                            if (user == null) {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditProfileScreen()));
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PeopleScreen()));
+                            }
                           } on FirebaseAuthException catch (error) {
                             errorMessage = error.message!;
                             setState(() {

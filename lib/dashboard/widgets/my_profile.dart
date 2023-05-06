@@ -144,7 +144,14 @@ class _MyProfileState extends State<MyProfile> {
               child: TabBarView(children: [
                 SingleChildScrollView(
                   child: Column(
-                    children: [...context.watch<DashboardProvider>().myPosts!.map((post) => PostCard(post: post))],
+                    children: [
+                      ...context.watch<DashboardProvider>().myPosts!.map((post) => PostCard(
+                            post: post,
+                            onLiked: (post) {
+                              context.read<DashboardProvider>().likeMyPost(post, post.postUserId);
+                            },
+                          ))
+                    ],
                   ),
                 ),
                 DetailsTab(user: widget.user),

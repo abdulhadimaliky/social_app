@@ -74,4 +74,14 @@ class DashboardRepo {
       "likedBy": FieldValue.arrayRemove([userId])
     });
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserPostsFromDB(String posterId) async {
+    final getMyPosts = await firestore
+        .collection("Posts")
+        .where("postUserId", isEqualTo: posterId)
+        .orderBy("createdAt", descending: true)
+        .get();
+
+    return getMyPosts;
+  }
 }

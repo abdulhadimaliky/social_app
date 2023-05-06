@@ -61,7 +61,16 @@ class _HomeTabState extends State<HomeTab> {
         Expanded(
           child: SingleChildScrollView(
             child: Column(
-              children: [...context.watch<DashboardProvider>().allPosts.map((e) => PostCard(post: e))],
+              children: [
+                ...context.watch<DashboardProvider>().allPosts.map((e) => PostCard(
+                      post: e,
+                      onLiked: (post) async {
+                        await context
+                            .read<DashboardProvider>()
+                            .likePost(post, context.read<DashboardProvider>().currentUserData!.userUid);
+                      },
+                    ))
+              ],
             ),
           ),
         ),

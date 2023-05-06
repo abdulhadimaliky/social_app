@@ -54,6 +54,11 @@ class AuthRepo {
     return snapshot;
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>> checkUserById(String userId) async {
+    final snapshot = await firestore.collection("userData").doc(userId).get();
+    return snapshot;
+  }
+
   Future<void> signout() async {
     await firebaseAuth.signOut();
   }

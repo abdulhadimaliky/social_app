@@ -30,7 +30,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
       child: Scaffold(
         backgroundColor: Colors.grey.shade100,
         body: context.watch<DashboardProvider>().currentUserData == null
-            ? const CircularProgressIndicator()
+            ? const Center(child: CircularProgressIndicator())
             : [
                 const HomeTab(),
                 const Center(child: Text("notifications")),
