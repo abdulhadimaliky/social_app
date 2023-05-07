@@ -36,7 +36,15 @@ class AuthProvider extends ChangeNotifier {
       required String profession,
       required String userName,
       required String years}) async {
-    await authRep.submitForm(await uploadDP(), description, jobDetails, location, profession, userName, years);
+    await authRep.submitForm(
+      await uploadDP(),
+      description,
+      jobDetails,
+      location,
+      profession,
+      userName,
+      years,
+    );
   }
 
   Future<UserModel?> checkUserInDB() async {

@@ -145,7 +145,7 @@ class _MyProfileState extends State<MyProfile> {
                 SingleChildScrollView(
                   child: Column(
                     children: [
-                      ...context.watch<DashboardProvider>().myPosts!.map((post) => PostCard(
+                      ...context.watch<DashboardProvider>().myPosts.map((post) => PostCard(
                             post: post,
                             onLiked: (post) {
                               context.read<DashboardProvider>().likeMyPost(post, post.postUserId);

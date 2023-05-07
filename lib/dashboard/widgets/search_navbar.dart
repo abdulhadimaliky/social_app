@@ -60,7 +60,7 @@ class _SearchNavBarState extends State<SearchNavBar> {
                 ),
               ),
             ),
-            ...context.watch<DashboardProvider>().recommendations!.map((e) => Column(
+            ...context.watch<DashboardProvider>().recommendations.map((e) => Column(
                   children: [
                     GestureDetector(
                       onTap: () async {

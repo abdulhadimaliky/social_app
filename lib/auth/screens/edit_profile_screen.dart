@@ -36,7 +36,7 @@ class EditProfileScreen extends StatelessWidget {
                   children: [
                     const Header(screenTitle: "Edit Profile"),
                     Center(
-                      child: UserProfilePicture(file: Provider.of<AuthProvider>(context).file),
+                      child: UserProfilePicture(file: context.watch<AuthProvider>().file),
                     ),
                     SignupTitleAndTextField(
                       fieldSize: "full",

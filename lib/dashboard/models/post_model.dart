@@ -10,18 +10,19 @@ class PostModel {
   final int postComments;
   final DateTime createdAt;
   final List<String> likedBy;
+  final String? postImageUrl;
 
-  PostModel({
-    required this.postComments,
-    required this.postDescription,
-    required this.postId,
-    required this.likedBy,
-    required this.postTitle,
-    required this.postUserId,
-    required this.posterImageUrl,
-    required this.createdAt,
-    required this.posterName,
-  });
+  PostModel(
+      {required this.postComments,
+      required this.postDescription,
+      required this.postId,
+      required this.likedBy,
+      required this.postTitle,
+      required this.postUserId,
+      required this.posterImageUrl,
+      required this.createdAt,
+      required this.posterName,
+      required this.postImageUrl});
 
   Map<String, dynamic> toJson() {
     return {
@@ -33,7 +34,8 @@ class PostModel {
       "postComments": postComments,
       "posterImageUrl": posterImageUrl,
       "posterName": posterName,
-      "createdAt": createdAt
+      "createdAt": createdAt,
+      "postImageUrl": postImageUrl
     };
   }
 
@@ -48,6 +50,7 @@ class PostModel {
       posterImageUrl: json["posterImageUrl"],
       posterName: json["posterName"],
       createdAt: (json['createdAt'] as Timestamp).toDate(),
+      postImageUrl: json["postImageUrl"],
     );
   }
 }

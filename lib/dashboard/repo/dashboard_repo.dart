@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:social_app/common/services/id_service.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 
 class DashboardRepo {
   final firebaseAuth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
+  final firebaseStorage = FirebaseStorage.instance;
 
   Future<QuerySnapshot<Map<String, dynamic>>> getRecommendations() async {
     final getRecs =
@@ -20,6 +25,16 @@ class DashboardRepo {
     return getRecs;
   }
 
+  Future<String?> uploadPostImage(XFile? file) async {
+    print(file);
+    if (file != null) {
+      final task = await firebaseStorage.ref("postImageUrl/${file.name}").putFile(File(file.path));
+      final url = await task.ref.getDownloadURL();
+      print(url);
+      return url;
+    }
+  }
+
   // Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(String id) async {
   //   final receivedUser = await firestore.collection("userData").doc(id).get();
   //   return receivedUser;
@@ -32,6 +47,7 @@ class DashboardRepo {
     String postTitle,
     String posterImageUrl,
     String posterName,
+    XFile? file,
   ) async {
     final myPostId = IdService.generateId();
     final post = PostModel(
@@ -44,6 +60,7 @@ class DashboardRepo {
       posterImageUrl: posterImageUrl,
       posterName: posterName,
       createdAt: DateTime.now(),
+      postImageUrl: await uploadPostImage(file),
     );
     await firestore.collection("Posts").doc(myPostId).set(post.toJson());
   }

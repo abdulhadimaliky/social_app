@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
@@ -109,11 +110,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          ...context.watch<DashboardProvider>().usersPosts!.map((e) => PostCard(
+                          ...context.watch<DashboardProvider>().usersPosts.map((e) => PostCard(
                                 post: e,
                                 onLiked: (post) {
                                   //TODO: TODO IMplement for user post.
-                                  // context.read<DashboardProvider>().
+                                  context
+                                      .read<DashboardProvider>()
+                                      .likeUserPost(e, FirebaseAuth.instance.currentUser!.uid);
                                 },
                               ))
                         ],

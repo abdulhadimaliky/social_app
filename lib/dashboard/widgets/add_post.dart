@@ -1,9 +1,13 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:social_app/auth/providers/auth_provider.dart';
+import 'package:social_app/auth/widgets/image_avatar.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
+import 'package:social_app/dashboard/widgets/post_picture.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key, required this.user});
@@ -26,6 +30,7 @@ class _AddPostState extends State<AddPost> {
 
   @override
   Widget build(BuildContext context) {
+    // final fileImage = context.watch<DashboardProvider>().file!.path;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 20),
       child: Column(
@@ -116,6 +121,36 @@ class _AddPostState extends State<AddPost> {
               ),
             ),
           ),
+          const SizedBox(height: 10),
+          // SizedBox(
+          //   child: TextButton(
+          //       onPressed: () async {
+          //         final ImagePicker imagePicker = ImagePicker();
+          //         final file = await imagePicker.pickImage(source: ImageSource.camera, imageQuality: 20);
+          //         if (file != null) {
+          //           context.read<AuthProvider>().setUserImageFile(file);
+          //         }
+          //       },
+          //       child: const Text("Add Photo")),
+          // ),
+
+          PostPicure(file: context.watch<DashboardProvider>().file)
+          // Container(
+          //   height: MediaQuery.of(context).size.height * 0.3,
+          //   width: MediaQuery.of(context).size.width * 0.9,
+          //   decoration: BoxDecoration(
+          //     color: Colors.amber,
+          //     borderRadius: BorderRadius.circular(10),
+          //     // image: DecorationImage(
+          //     //   image: FileImage(File(context.watch<DashboardProvider>().file!.path)),
+          //     // ),
+          //   ),
+          //   // child: fileImage == null
+          //   //     ? const Center(child: Text("Upload Image"))
+          //   //     : const Center(
+          //   //         child: Text("Hello"),
+          //   //       ),
+          // ),
         ],
       ),
     );
