@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/common/services/id_service.dart';
+import 'package:social_app/dashboard/models/comment_model.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 
 class DashboardRepo {
@@ -33,6 +34,7 @@ class DashboardRepo {
       print(url);
       return url;
     }
+    return null;
   }
 
   // Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(String id) async {
@@ -100,5 +102,23 @@ class DashboardRepo {
         .get();
 
     return getMyPosts;
+  }
+
+  Future<void> addComment(String postId, String commentBody) async {
+    await FirebaseFirestore.instance
+        .collection("Posts")
+        .doc(postId)
+        .collection("comments")
+        .add(Comment(commentAt: DateTime.now(), text: commentBody).toJson());
+    await firestore.collection("Posts").doc(postId).update({"postComments": FieldValue.increment(1)});
+  }
+
+  Stream<List<Comment>> openCommentsStream(String postId) {
+    return firestore
+        .collection("Posts")
+        .doc(postId)
+        .collection("comments")
+        .snapshots()
+        .map((event) => event.docs.map((e) => Comment.fromJson(e.data())).toList());
   }
 }

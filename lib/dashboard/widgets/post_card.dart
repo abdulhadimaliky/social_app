@@ -1,11 +1,9 @@
-import 'dart:developer';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
+import 'package:social_app/dashboard/screens/comment_section.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
@@ -94,124 +92,4 @@ class PostCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class CommentsSection extends StatefulWidget {
-  const CommentsSection({super.key, required this.postModel});
-
-  final PostModel postModel;
-
-  @override
-  State<CommentsSection> createState() => _CommentsSectionState();
-}
-
-class _CommentsSectionState extends State<CommentsSection> {
-  final TextEditingController controller = TextEditingController();
-
-  List<Comment> comments = [];
-
-  @override
-  void initState() {
-    openCommentsStream().listen((event) {
-      comments = event;
-    });
-    super.initState();
-  }
-
-  Stream<List<Comment>> openCommentsStream() {
-    return FirebaseFirestore.instance
-        .collection("akdsf")
-        .snapshots()
-        .map((event) => event.docs.map((e) => Comment.fromJson(e.data())).toList());
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Comment Section")),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection("Posts")
-                          .doc(widget.postModel.postId)
-                          .collection("comments")
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData) {}
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.none:
-                            return const Text("No stream opened");
-
-                          case ConnectionState.waiting:
-                            return const Center(child: CircularProgressIndicator());
-                          case ConnectionState.active:
-                            final docs = snapshot.data!.docs;
-                            log("REBUILDING");
-                            if (docs.isEmpty) {
-                              return const Text("Such an empty comment section");
-                            }
-                            final commentsModels = docs.map((e) => Comment.fromJson(e.data())).toList();
-                            return ListView.builder(
-                                itemCount: commentsModels.length,
-                                itemBuilder: (context, index) {
-                                  final comment = commentsModels[index];
-                                  return ListTile(
-                                    title: Text(comment.text),
-                                    trailing: Text(comment.commentAt.toString()),
-                                  );
-                                });
-
-                          case ConnectionState.done:
-                            return const SizedBox();
-                        }
-                      })),
-              TextField(
-                controller: controller,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      FirebaseFirestore.instance
-                          .collection("Posts")
-                          .doc(widget.postModel.postId)
-                          .collection("comments")
-                          .add(Comment(commentAt: DateTime.now(), text: controller.text).toJson())
-                          .then((value) => controller.clear());
-                    },
-                    icon: const Icon(Icons.send, color: Colors.blue),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Comment {
-  String text;
-  DateTime commentAt;
-
-  Comment({
-    required this.text,
-    required this.commentAt,
-  });
-
-  factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-        text: json["text"],
-        commentAt: (json["commentAt"] as Timestamp).toDate(),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "text": text,
-        "commentAt": commentAt,
-      };
 }

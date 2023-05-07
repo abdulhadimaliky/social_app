@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:social_app/dashboard/models/comment_model.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/repo/dashboard_repo.dart';
 
@@ -17,6 +18,7 @@ class DashboardProvider extends ChangeNotifier {
   List<PostModel> myPosts = [];
   List<PostModel> allPosts = [];
   List<PostModel> usersPosts = [];
+  List<Comment> comments = [];
 
   Future<void> getRecommendations() async {
     recommendations.clear();
@@ -133,5 +135,17 @@ class DashboardProvider extends ChangeNotifier {
       usersPosts.add(PostModel.fromJson(doc.data()));
     }
     notifyListeners();
+  }
+
+  Future<void> addComment(String postId, String commentBody) async {
+    await dashboardRepo.addComment(postId, commentBody);
+  }
+
+  void openCommentsStream(String postId) {
+    dashboardRepo.openCommentsStream(postId).listen((event) {
+      comments = [...event];
+      notifyListeners();
+      // print(event);
+    });
   }
 }
