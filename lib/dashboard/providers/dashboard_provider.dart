@@ -138,14 +138,13 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   Future<void> addComment(String postId, String commentBody) async {
-    await dashboardRepo.addComment(postId, commentBody);
+    await dashboardRepo.addComment(postId, commentBody, currentUserData!.profilePicture!, currentUserData!.userName);
   }
 
   void openCommentsStream(String postId) {
     dashboardRepo.openCommentsStream(postId).listen((event) {
       comments = [...event];
       notifyListeners();
-      // print(event);
     });
   }
 }

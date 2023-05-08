@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
@@ -41,8 +42,55 @@ class _CommentsSectionState extends State<CommentsSection> {
                       itemBuilder: (context, index) {
                         final comment = comments[index];
                         return ListTile(
-                          title: Text(comment.text),
-                          trailing: Text(comment.commentAt.toString()),
+                          leading: CircleAvatar(backgroundImage: NetworkImage(comment.commenterImageUrl)),
+                          title: Card(
+                              shape: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  borderSide: const BorderSide(color: Colors.white10)),
+                              elevation: 0,
+                              color: Colors.grey.shade300,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      comment.commenterName,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(comment.text),
+                                  ],
+                                ),
+                              )),
+                          subtitle: Text(DateFormat.jm().format(comment.commentAt)),
+                          trailing: PopupMenuButton(
+                              icon: const Icon(Icons.more_horiz),
+                              onSelected: (value) {},
+                              itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                        value: 1,
+                                        child: Row(
+                                          children: const [
+                                            Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Icon(Icons.edit, color: Colors.blue),
+                                            ),
+                                            Text("Edit")
+                                          ],
+                                        )),
+                                    PopupMenuItem(
+                                        value: 2,
+                                        child: Row(
+                                          children: const [
+                                            Padding(
+                                              padding: EdgeInsets.all(5),
+                                              child: Icon(Icons.delete, color: Colors.red),
+                                            ),
+                                            Text("Delete")
+                                          ],
+                                        )),
+                                  ]),
                         );
                       });
                 }),

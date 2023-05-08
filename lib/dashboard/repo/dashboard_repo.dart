@@ -104,12 +104,13 @@ class DashboardRepo {
     return getMyPosts;
   }
 
-  Future<void> addComment(String postId, String commentBody) async {
-    await FirebaseFirestore.instance
-        .collection("Posts")
-        .doc(postId)
-        .collection("comments")
-        .add(Comment(commentAt: DateTime.now(), text: commentBody).toJson());
+  Future<void> addComment(String postId, String commentBody, String commenterImageUrl, String commenterName) async {
+    await FirebaseFirestore.instance.collection("Posts").doc(postId).collection("comments").add(Comment(
+            commentAt: DateTime.now(),
+            text: commentBody,
+            commenterImageUrl: commenterImageUrl,
+            commenterName: commenterName)
+        .toJson());
     await firestore.collection("Posts").doc(postId).update({"postComments": FieldValue.increment(1)});
   }
 
@@ -118,6 +119,7 @@ class DashboardRepo {
         .collection("Posts")
         .doc(postId)
         .collection("comments")
+        .orderBy("commentAt", descending: true)
         .snapshots()
         .map((event) => event.docs.map((e) => Comment.fromJson(e.data())).toList());
   }
