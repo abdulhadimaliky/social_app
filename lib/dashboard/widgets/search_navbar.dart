@@ -72,7 +72,7 @@ class _SearchNavBarState extends State<SearchNavBar> {
                         ),
                         title: Text(e.userName),
                         subtitle: Text(e.profession),
-                        trailing: const AddButton(),
+                        trailing: AddButton(userId: e.userUid),
                       ),
                     ),
                     const Divider(

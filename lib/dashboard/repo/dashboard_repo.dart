@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/common/services/id_service.dart';
 import 'package:social_app/dashboard/models/comment_model.dart';
+import 'package:social_app/dashboard/models/friend_request_model.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 
 class DashboardRepo {
@@ -122,5 +123,32 @@ class DashboardRepo {
         .orderBy("commentAt", descending: true)
         .snapshots()
         .map((event) => event.docs.map((e) => Comment.fromJson(e.data())).toList());
+  }
+
+  Future<void> sendRequest(
+    String senderId,
+    String receiverId,
+    DateTime sentAt,
+    String senderImageUrl,
+    String senderName,
+  ) async {
+    final requestId = IdService.generateId();
+    final request = FriendRequestModel(
+      senderId: senderId,
+      receiverId: receiverId,
+      sentAt: sentAt,
+      senderImageUrl: senderImageUrl,
+      senderName: senderName,
+      requestId: requestId,
+      requestStatus: RequestStatus.pending,
+    );
+
+    await firestore.collection("friendRequests").doc(requestId).set(request.toJson());
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getMyRequests() async {
+    final requests =
+        firestore.collection("friendRequests").where("receiverId", isEqualTo: firebaseAuth.currentUser!.uid).get();
+    return requests;
   }
 }

@@ -1,11 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/widgets/add_post.dart';
 import 'package:social_app/dashboard/widgets/home_tab.dart';
 import 'package:social_app/dashboard/widgets/my_profile.dart';
+import 'package:social_app/dashboard/widgets/notifications.dart';
 import 'package:social_app/dashboard/widgets/search_navbar.dart';
 
 class PeopleScreen extends StatefulWidget {
@@ -33,7 +32,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
             ? const Center(child: CircularProgressIndicator())
             : [
                 const HomeTab(),
-                const Center(child: Text("notifications")),
+                Notificaitons(user: context.read<DashboardProvider>().currentUserData!),
                 AddPost(user: context.watch<DashboardProvider>().currentUserData!),
                 const SearchNavBar(),
                 MyProfile(user: context.watch<DashboardProvider>().currentUserData!),

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 
 class AddButton extends StatefulWidget {
-  const AddButton({
-    Key? key,
-  }) : super(key: key);
+  const AddButton({Key? key, required this.userId}) : super(key: key);
+
+  final String userId;
 
   @override
   State<AddButton> createState() => _AddButtonState();
@@ -27,7 +29,8 @@ class _AddButtonState extends State<AddButton> {
           text,
           style: TextStyle(color: textColor),
         ),
-        onPressed: () {
+        onPressed: () async {
+          await context.read<DashboardProvider>().sendFriendRequest(widget.userId);
           setState(() {
             color = const Color(0xff34C791).withOpacity(0.1);
             textColor = const Color(0xff34C791);

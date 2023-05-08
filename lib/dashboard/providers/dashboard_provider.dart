@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/dashboard/models/comment_model.dart';
+import 'package:social_app/dashboard/models/friend_request_model.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/repo/dashboard_repo.dart';
 
@@ -19,10 +20,28 @@ class DashboardProvider extends ChangeNotifier {
   List<PostModel> allPosts = [];
   List<PostModel> usersPosts = [];
   List<Comment> comments = [];
+  List<FriendRequestModel> myFriendRequests = [];
+
+  Future<void> sendFriendRequest(
+    String receiverId,
+  ) async {
+    await dashboardRepo.sendRequest(currentUserData!.userUid, receiverId, DateTime.now(),
+        currentUserData!.profilePicture!, currentUserData!.userName);
+  }
+
+  Future<void> getMyRequests() async {
+    myFriendRequests.clear();
+    final myRequests = await dashboardRepo.getMyRequests();
+
+    for (final request in myRequests.docs) {
+      myFriendRequests.add(FriendRequestModel.fromJson(request.data()));
+      notifyListeners();
+    }
+  }
 
   Future<void> getRecommendations() async {
     recommendations.clear();
-    final recs = await DashboardRepo().getRecommendations();
+    final recs = await dashboardRepo.getRecommendations();
 
     for (final doc in recs.docs) {
       recommendations.add(UserModel.fromJson(doc.data()));
