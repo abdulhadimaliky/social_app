@@ -113,7 +113,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           ...context.watch<DashboardProvider>().usersPosts.map((e) => PostCard(
                                 post: e,
                                 onLiked: (post) {
-                                  //TODO: TODO IMplement for user post.
                                   context
                                       .read<DashboardProvider>()
                                       .likeUserPost(e, FirebaseAuth.instance.currentUser!.uid);

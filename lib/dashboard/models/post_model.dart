@@ -7,22 +7,23 @@ class PostModel {
   final String postId;
   final String posterName;
   final String posterImageUrl;
-  final int postComments;
+  int postComments;
   final DateTime createdAt;
   final List<String> likedBy;
   final String? postImageUrl;
 
-  PostModel(
-      {required this.postComments,
-      required this.postDescription,
-      required this.postId,
-      required this.likedBy,
-      required this.postTitle,
-      required this.postUserId,
-      required this.posterImageUrl,
-      required this.createdAt,
-      required this.posterName,
-      required this.postImageUrl});
+  PostModel({
+    required this.postComments,
+    required this.postDescription,
+    required this.postId,
+    required this.likedBy,
+    required this.postTitle,
+    required this.postUserId,
+    required this.posterImageUrl,
+    required this.createdAt,
+    required this.posterName,
+    required this.postImageUrl,
+  });
 
   Map<String, dynamic> toJson() {
     return {

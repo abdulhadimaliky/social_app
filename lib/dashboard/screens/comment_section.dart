@@ -48,7 +48,7 @@ class _CommentsSectionState extends State<CommentsSection> {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(color: Colors.white10)),
                               elevation: 0,
-                              color: Colors.grey.shade300,
+                              color: const Color(0xff007AFF).withOpacity(0.04),
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Column(
@@ -56,14 +56,24 @@ class _CommentsSectionState extends State<CommentsSection> {
                                   children: [
                                     Text(
                                       comment.commenterName,
-                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                                     ),
+                                    Text(
+                                      DateFormat.jm().format(comment.commentAt),
+                                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                    ),
+                                    // const Divider(),
                                     const SizedBox(height: 5),
-                                    Text(comment.text),
+                                    Text(
+                                      comment.text,
+                                      style: TextStyle(color: const Color(0xff111129).withOpacity(0.7)),
+                                    ),
                                   ],
                                 ),
                               )),
-                          subtitle: Text(DateFormat.jm().format(comment.commentAt)),
+                          subtitle: Row(
+                            children: const [Text("Like"), VerticalDivider(color: Colors.grey), Text("Reply")],
+                          ),
                           trailing: PopupMenuButton(
                               icon: const Icon(Icons.more_horiz),
                               onSelected: (value) {},

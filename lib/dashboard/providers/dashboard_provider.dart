@@ -139,6 +139,14 @@ class DashboardProvider extends ChangeNotifier {
 
   Future<void> addComment(String postId, String commentBody) async {
     await dashboardRepo.addComment(postId, commentBody, currentUserData!.profilePicture!, currentUserData!.userName);
+    final indexOfPost = allPosts.indexWhere((element) => element.postId == postId);
+    allPosts[indexOfPost].postComments++;
+    // TODO: increment the number of comments on my post on my profile page.
+    // myPosts[indexOfPost].postComments++;
+    // TODO: increment the number of comments on user's post on user's profile page.
+    // usersPosts[indexOfPost].postComments++;
+
+    notifyListeners();
   }
 
   void openCommentsStream(String postId) {

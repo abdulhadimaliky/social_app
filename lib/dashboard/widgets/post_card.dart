@@ -33,21 +33,21 @@ class PostCard extends StatelessWidget {
                 subtitle: Text(DateFormat.jm().format(post.createdAt))),
             Text(post.postDescription),
             const SizedBox(height: 10),
-            Center(
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.227,
-                width: MediaQuery.of(context).size.width * 0.85,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: post.postImageUrl == null
-                      ? null
-                      : DecorationImage(
+            post.postImageUrl == null
+                ? const SizedBox()
+                : Center(
+                    child: Container(
+                      height: MediaQuery.of(context).size.height * 0.227,
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
                           image: NetworkImage(post.postImageUrl!),
                           fit: BoxFit.cover,
                         ),
-                ),
-              ),
-            ),
+                      ),
+                    ),
+                  ),
             const SizedBox(height: 15),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
