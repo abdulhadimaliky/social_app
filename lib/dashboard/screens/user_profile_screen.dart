@@ -106,20 +106,19 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
               Expanded(
                 child: TabBarView(children: [
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ...context.watch<DashboardProvider>().usersPosts.map((e) => PostCard(
-                                post: e,
-                                onLiked: (post) {
-                                  context
-                                      .read<DashboardProvider>()
-                                      .likeUserPost(e, FirebaseAuth.instance.currentUser!.uid);
-                                },
-                              ))
-                        ],
-                      ),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ...context.watch<DashboardProvider>().usersPosts.map((e) => PostCard(
+                              text: "user",
+                              post: e,
+                              onLiked: (post) {
+                                context
+                                    .read<DashboardProvider>()
+                                    .likeUserPost(e, FirebaseAuth.instance.currentUser!.uid);
+                              },
+                            ))
+                      ],
                     ),
                   ),
                   DetailsTab(user: widget.user),

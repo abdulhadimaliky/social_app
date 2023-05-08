@@ -5,9 +5,10 @@ import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 
 class CommentsSection extends StatefulWidget {
-  const CommentsSection({super.key, required this.postModel});
+  const CommentsSection({super.key, required this.postModel, required this.text});
 
   final PostModel postModel;
+  final String text;
 
   @override
   State<CommentsSection> createState() => _CommentsSectionState();
@@ -111,7 +112,9 @@ class _CommentsSectionState extends State<CommentsSection> {
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     onPressed: () async {
-                      await context.read<DashboardProvider>().addComment(widget.postModel.postId, controller.text);
+                      await context
+                          .read<DashboardProvider>()
+                          .addComment(widget.postModel.postId, controller.text, widget.text);
                       controller.clear();
                     },
                     icon: const Icon(Icons.send, color: Colors.blue),

@@ -10,10 +10,12 @@ class PostCard extends StatelessWidget {
     Key? key,
     required this.post,
     required this.onLiked,
+    required this.text,
   }) : super(key: key);
 
   final PostModel post;
   final Function(PostModel post) onLiked;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +77,7 @@ class PostCard extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) => CommentsSection(postModel: post)));
+                          .push(MaterialPageRoute(builder: (context) => CommentsSection(postModel: post, text: text)));
                     },
                     child: Row(
                       children: [
