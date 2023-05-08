@@ -41,10 +41,14 @@ class PostCard extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.85,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        image: DecorationImage(
-                          image: NetworkImage(post.postImageUrl!),
-                          fit: BoxFit.cover,
-                        ),
+                      ),
+                      child: Image.network(
+                        post.postImageUrl!,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(child: CircularProgressIndicator());
+                        },
                       ),
                     ),
                   ),
