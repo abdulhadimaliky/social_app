@@ -59,7 +59,9 @@ class _NotificaitonsState extends State<Notificaitons> {
                           ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read<DashboardProvider>().acceptFriendRequests(e.senderId, e.requestId);
+                              },
                               child: const Text("Accept")),
                           const VerticalDivider(),
                           ElevatedButton(

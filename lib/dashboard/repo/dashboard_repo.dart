@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/common/services/id_service.dart';
 import 'package:social_app/dashboard/models/comment_model.dart';
 import 'package:social_app/dashboard/models/friend_request_model.dart';
@@ -106,12 +107,14 @@ class DashboardRepo {
   }
 
   Future<void> addComment(String postId, String commentBody, String commenterImageUrl, String commenterName) async {
-    await FirebaseFirestore.instance.collection("Posts").doc(postId).collection("comments").add(Comment(
+    await firestore.collection("Posts").doc(postId).collection("comments").add(
+          Comment(
             commentAt: DateTime.now(),
             text: commentBody,
             commenterImageUrl: commenterImageUrl,
-            commenterName: commenterName)
-        .toJson());
+            commenterName: commenterName,
+          ).toJson(),
+        );
     await firestore.collection("Posts").doc(postId).update({"postComments": FieldValue.increment(1)});
   }
 
@@ -147,8 +150,34 @@ class DashboardRepo {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getMyRequests() async {
-    final requests =
-        firestore.collection("friendRequests").where("receiverId", isEqualTo: firebaseAuth.currentUser!.uid).get();
+    final requests = firestore
+        .collection("friendRequests")
+        .where("receiverId", isEqualTo: firebaseAuth.currentUser!.uid)
+        .where("requestStatus", isEqualTo: "pending")
+        .get();
     return requests;
+  }
+
+  Future<void> acceptRequest(
+    String senderId,
+    UserModel? currentUser,
+    String requestId,
+  ) async {
+    final senderDoc = await firestore.collection("userData").doc(senderId).get();
+
+    await firestore
+        .collection("userData")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("friends")
+        .doc(senderId)
+        .set(senderDoc.data()!);
+    await firestore
+        .collection("userData")
+        .doc(senderId)
+        .collection("friends")
+        .doc(firebaseAuth.currentUser!.uid)
+        .set(currentUser!.toJson());
+
+    await firestore.collection("friendRequests").doc(requestId).update({"requestStatus": "accepted"});
   }
 }

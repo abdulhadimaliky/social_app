@@ -21,6 +21,11 @@ class DashboardProvider extends ChangeNotifier {
   List<PostModel> usersPosts = [];
   List<Comment> comments = [];
   List<FriendRequestModel> myFriendRequests = [];
+  List<UserModel> myFriends = [];
+
+  Future<void> acceptFriendRequests(String senderId, String requestId) async {
+    await dashboardRepo.acceptRequest(senderId, currentUserData, requestId);
+  }
 
   Future<void> sendFriendRequest(
     String receiverId,
