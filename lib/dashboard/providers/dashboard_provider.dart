@@ -21,10 +21,12 @@ class DashboardProvider extends ChangeNotifier {
   List<PostModel> usersPosts = [];
   List<Comment> comments = [];
   List<FriendRequestModel> myFriendRequests = [];
-  List<UserModel> myFriends = [];
+  // List<UserModel> myFriends = [];
 
   Future<void> acceptFriendRequests(String senderId, String requestId) async {
     await dashboardRepo.acceptRequest(senderId, currentUserData, requestId);
+    myFriendRequests.removeWhere((element) => element.requestId == requestId);
+    notifyListeners();
   }
 
   Future<void> sendFriendRequest(
