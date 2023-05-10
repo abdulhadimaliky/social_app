@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:social_app/dashboard/models/post_metadata.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 
 class CommentsSection extends StatefulWidget {
-  const CommentsSection({super.key, required this.postModel, required this.text});
+  const CommentsSection({
+    super.key,
+    required this.postModel,
+    required this.postData,
+  });
 
   final PostModel postModel;
-  final String text;
+  final PostMetaData postData;
 
   @override
   State<CommentsSection> createState() => _CommentsSectionState();
@@ -114,7 +119,7 @@ class _CommentsSectionState extends State<CommentsSection> {
                     onPressed: () async {
                       await context
                           .read<DashboardProvider>()
-                          .addComment(widget.postModel.postId, controller.text, widget.text);
+                          .addComment(widget.postData, widget.postModel.postId, controller.text);
                       controller.clear();
                     },
                     icon: const Icon(Icons.send, color: Colors.blue),

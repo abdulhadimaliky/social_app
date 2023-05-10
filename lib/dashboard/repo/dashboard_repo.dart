@@ -8,12 +8,18 @@ import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/common/services/id_service.dart';
 import 'package:social_app/dashboard/models/comment_model.dart';
 import 'package:social_app/dashboard/models/friend_request_model.dart';
+import 'package:social_app/dashboard/models/post_metadata.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 
 class DashboardRepo {
   final firebaseAuth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getPostMetaData(String postId) async {
+    final postMetaData = await firestore.collection("postMetaData").doc(postId).get();
+    return postMetaData;
+  }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getRecommendations() async {
     final getRecs =
@@ -45,33 +51,45 @@ class DashboardRepo {
   // }
 
   Future<void> submitPost(
-    int postComments,
     String postDescription,
-    List<String> likedBy,
     String postTitle,
+    String posterUserId,
     String posterImageUrl,
     String posterName,
     XFile? file,
   ) async {
     final myPostId = IdService.generateId();
     final post = PostModel(
-      postComments: postComments,
       postDescription: postDescription,
       postId: myPostId,
-      likedBy: likedBy,
       postTitle: postTitle,
-      postUserId: firebaseAuth.currentUser!.uid,
+      postUserId: posterUserId,
       posterImageUrl: posterImageUrl,
       posterName: posterName,
       createdAt: DateTime.now(),
       postImageUrl: await uploadPostImage(file),
     );
-    await firestore.collection("Posts").doc(myPostId).set(post.toJson());
+    final postMetaData = PostMetaData(postCommentsCount: 0, postLikesCount: []);
+    await firestore.collection("postMetaData").doc(myPostId).set(postMetaData.toJson());
+    await firestore.collection("posts").doc(myPostId).set(post.toJson());
+    await firestore.collection("userData").doc(posterUserId).collection("posts").doc(myPostId).set(post.toJson());
+    final friendsId = await getMyFriendsId();
+    for (final friendId in friendsId) {
+      firestore.collection("userData").doc(friendId).collection("posts").doc(myPostId).set(post.toJson());
+    }
+  }
+
+  Future<List<String>> getMyFriendsId() async {
+    final snapshot =
+        await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).collection("friends").get();
+    return snapshot.docs.map((e) => e.id).toList();
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getMyPostsFromDB() async {
     final getMyPosts = await firestore
-        .collection("Posts")
+        .collection("userData")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("posts")
         .where("postUserId", isEqualTo: firebaseAuth.currentUser!.uid)
         .orderBy("createdAt", descending: true)
         .get();
@@ -80,19 +98,24 @@ class DashboardRepo {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getAllPosts() async {
-    final getAllPosts = await firestore.collection("Posts").orderBy("createdAt", descending: true).get();
+    final getAllPosts = await firestore
+        .collection("userData")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("posts")
+        .orderBy("createdAt", descending: true)
+        .get();
     return getAllPosts;
   }
 
-  Future<void> likePost(PostModel post, String userId) async {
-    await firestore.collection("Posts").doc(post.postId).update({
-      "likedBy": FieldValue.arrayUnion([userId])
+  Future<void> likePost(String postId, String userId) async {
+    await firestore.collection("postMetaData").doc(postId).update({
+      "postLikeCounts": FieldValue.arrayUnion([userId])
     });
   }
 
-  Future<void> unlikePost(PostModel post, String userId) async {
-    await firestore.collection("Posts").doc(post.postId).update({
-      "likedBy": FieldValue.arrayRemove([userId])
+  Future<void> unlikePost(PostMetaData post, String postId, String userId) async {
+    await firestore.collection("postMetaData").doc(postId).update({
+      "postLikeCounts": FieldValue.arrayRemove([userId])
     });
   }
 
@@ -115,7 +138,7 @@ class DashboardRepo {
             commenterName: commenterName,
           ).toJson(),
         );
-    await firestore.collection("Posts").doc(postId).update({"postComments": FieldValue.increment(1)});
+    await firestore.collection("postMetaData").doc(postId).update({"postComments": FieldValue.increment(1)});
   }
 
   Stream<List<Comment>> openCommentsStream(String postId) {

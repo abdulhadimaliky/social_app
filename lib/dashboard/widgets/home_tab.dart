@@ -63,12 +63,11 @@ class _HomeTabState extends State<HomeTab> {
             child: Column(
               children: [
                 ...context.watch<DashboardProvider>().allPosts.map((e) => PostCard(
-                      text: "home",
                       post: e,
                       onLiked: (post) async {
-                        await context
-                            .read<DashboardProvider>()
-                            .likePost(post, context.read<DashboardProvider>().currentUserData!.userUid);
+                        // await context
+                        //     .read<DashboardProvider>()
+                        //     .likePost(context.read<DashboardProvider>().postMetaData!, e.postId);
                       },
                     ))
               ],

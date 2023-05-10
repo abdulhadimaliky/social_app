@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
@@ -110,12 +109,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     child: Column(
                       children: [
                         ...context.watch<DashboardProvider>().usersPosts.map((e) => PostCard(
-                              text: "user",
                               post: e,
                               onLiked: (post) {
-                                context
-                                    .read<DashboardProvider>()
-                                    .likeUserPost(e, FirebaseAuth.instance.currentUser!.uid);
+                                // context
+                                //     .read<DashboardProvider>()
+                                //     .likePost(postMetaData!, e.postId);
                               },
                             ))
                       ],

@@ -1,21 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:social_app/dashboard/models/post_metadata.dart';
 import 'package:social_app/dashboard/models/post_model.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
+import 'package:social_app/dashboard/repo/dashboard_repo.dart';
 import 'package:social_app/dashboard/screens/comment_section.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   const PostCard({
     Key? key,
     required this.post,
     required this.onLiked,
-    required this.text,
   }) : super(key: key);
 
   final PostModel post;
   final Function(PostModel post) onLiked;
-  final String text;
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
+  PostMetaData? postMetaData;
+  final repo = DashboardRepo();
+
+  @override
+  void initState() {
+    getPostMetaData(widget.post.postId);
+    super.initState();
+  }
+
+  Future<void> getPostMetaData(String postId) async {
+    final postData = await repo.getPostMetaData(postId);
+    if (postData.exists) {
+      postMetaData = PostMetaData.fromJson(postData.data()!);
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +52,12 @@ class PostCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ListTile(
-                leading: CircleAvatar(radius: 30, backgroundImage: NetworkImage(post.posterImageUrl)),
-                title: Text(post.posterName),
-                subtitle: Text(DateFormat.jm().format(post.createdAt))),
-            Text(post.postDescription),
+                leading: CircleAvatar(radius: 30, backgroundImage: NetworkImage(widget.post.posterImageUrl)),
+                title: Text(widget.post.posterName),
+                subtitle: Text(DateFormat.jm().format(widget.post.createdAt))),
+            Text(widget.post.postDescription),
             const SizedBox(height: 10),
-            post.postImageUrl == null
+            widget.post.postImageUrl == null
                 ? const SizedBox()
                 : Center(
                     child: Container(
@@ -45,7 +67,7 @@ class PostCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Image.network(
-                        post.postImageUrl!,
+                        widget.post.postImageUrl!,
                         fit: BoxFit.cover,
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
@@ -64,26 +86,37 @@ class PostCard extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                          icon: post.likedBy.contains(context.read<DashboardProvider>().currentUserData!.userUid)
+                          icon: postMetaData?.postLikesCount
+                                      .contains(context.read<DashboardProvider>().currentUserData!.userUid) ??
+                                  false
                               ? const Icon(Icons.thumb_up, color: Colors.black)
                               : const Icon(Icons.thumb_up_outlined, color: Colors.black),
                           onPressed: () {
-                            onLiked(post);
+                            context.read<DashboardProvider>().likePost(postMetaData!, widget.post.postId).then((value) {
+                              setState(() {});
+                            });
                           }),
                       const SizedBox(width: 10),
-                      Text(post.likedBy.length.toString()),
+                      postMetaData == null
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : Text(postMetaData?.postLikesCount.length.toString() ?? "0"),
                     ],
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) => CommentsSection(postModel: post, text: text)));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CommentsSection(
+                                postModel: widget.post,
+                                postData: postMetaData!,
+                              )));
                     },
                     child: Row(
                       children: [
                         const Icon(Icons.messenger_outline_rounded),
                         const SizedBox(width: 10),
-                        Text(post.postComments.toString()),
+                        Text(postMetaData?.postCommentsCount.toString() ?? "0"),
                       ],
                     ),
                   ),

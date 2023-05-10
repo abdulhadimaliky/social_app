@@ -7,16 +7,14 @@ class PostModel {
   final String postId;
   final String posterName;
   final String posterImageUrl;
-  int postComments;
+
   final DateTime createdAt;
-  final List<String> likedBy;
+
   final String? postImageUrl;
 
   PostModel({
-    required this.postComments,
     required this.postDescription,
     required this.postId,
-    required this.likedBy,
     required this.postTitle,
     required this.postUserId,
     required this.posterImageUrl,
@@ -31,8 +29,6 @@ class PostModel {
       "postDescription": postDescription,
       "postUserId": postUserId,
       "postId": postId,
-      "likedBy": likedBy,
-      "postComments": postComments,
       "posterImageUrl": posterImageUrl,
       "posterName": posterName,
       "createdAt": createdAt,
@@ -42,10 +38,8 @@ class PostModel {
 
   static PostModel fromJson(Map<String, dynamic> json) {
     return PostModel(
-      postComments: json["postComments"],
       postDescription: json["postDescription"],
       postId: json["postId"],
-      likedBy: List<String>.from(json["likedBy"] ?? []),
       postTitle: json["postTitle"],
       postUserId: json["postUserId"],
       posterImageUrl: json["posterImageUrl"],
