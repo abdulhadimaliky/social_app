@@ -92,6 +92,10 @@ class DashboardProvider extends ChangeNotifier {
     );
   }
 
+  Future<void> deletePost(String postId) async {
+    await dashboardRepo.deletePost(postId);
+  }
+
   Future<void> getMyPostsFromDB() async {
     myPosts.clear();
     final myPost = await dashboardRepo.getMyPostsFromDB();

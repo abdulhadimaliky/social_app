@@ -54,7 +54,47 @@ class _PostCardState extends State<PostCard> {
             ListTile(
                 leading: CircleAvatar(radius: 30, backgroundImage: NetworkImage(widget.post.posterImageUrl)),
                 title: Text(widget.post.posterName),
-                subtitle: Text(DateFormat.jm().format(widget.post.createdAt))),
+                subtitle: Text(DateFormat.jm().format(widget.post.createdAt)),
+                trailing: PopupMenuButton(
+                  itemBuilder: (c) {
+                    return [
+                      PopupMenuItem(
+                          child: TextButton(
+                        child: const Text(
+                          "Delete post",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("Deleting Post"),
+                                  content: const Text("Are you sure you want to delete this post?"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        context
+                                            .read<DashboardProvider>()
+                                            .deletePost(widget.post.postId)
+                                            .then((value) => Navigator.of(context).pop());
+                                      },
+                                      child: const Text("Yes"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("No"),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                      ))
+                    ];
+                  },
+                )),
             Text(widget.post.postDescription),
             const SizedBox(height: 10),
             widget.post.postImageUrl == null

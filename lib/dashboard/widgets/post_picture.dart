@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 
 class PostPicure extends StatelessWidget {
@@ -23,10 +22,13 @@ class PostPicure extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.9,
         child: context.watch<DashboardProvider>().file != null
             ? Container(
-                child: Image(
-                  image: FileImage(File(context.watch<DashboardProvider>().file!.path)),
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: FileImage(
+                    File(context.watch<DashboardProvider>().file!.path),
+                  ),
                   fit: BoxFit.cover,
-                ),
+                )),
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(10),

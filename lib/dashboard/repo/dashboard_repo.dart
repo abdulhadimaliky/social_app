@@ -78,6 +78,16 @@ class DashboardRepo {
     }
   }
 
+  Future<void> deletePost(String postId) async {
+    await firestore.collection("posts").doc(postId).delete();
+    await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).collection("posts").doc(postId).delete();
+    final friendsId = await getMyFriendsId();
+    for (final friendId in friendsId) {
+      firestore.collection("userData").doc(friendId).collection("posts").doc(postId).delete();
+    }
+    await firestore.collection("postMetaData").doc(postId).delete();
+  }
+
   Future<List<String>> getMyFriendsId() async {
     final snapshot =
         await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).collection("friends").get();
@@ -203,3 +213,21 @@ class DashboardRepo {
     await firestore.collection("friendRequests").doc(requestId).update({"requestStatus": "accepted"});
   }
 }
+
+
+// ListView.builder(
+              //     itemCount: context.watch<DashboardProvider>().allPosts.length,
+              //     itemBuilder: (context, int index) {
+              //       return Column(
+              //         children: [
+              //           ...context.watch<DashboardProvider>().allPosts.map((e) => PostCard(
+              //                 post: e,
+              //                 onLiked: (post) async {
+              //                   await context
+              //                       .read<DashboardProvider>()
+              //                       .likePost(context.read<DashboardProvider>().postMetaData!, e.postId);
+              //                 },
+              //               ))
+              //         ],
+              //       );
+              //     })

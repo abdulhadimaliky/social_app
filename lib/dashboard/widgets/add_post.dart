@@ -18,6 +18,7 @@ class _AddPostState extends State<AddPost> {
   @override
   void initState() {
     context.read<DashboardProvider>().getCurrentUserData();
+    context.read<DashboardProvider>().file == null;
     super.initState();
   }
 
@@ -41,8 +42,8 @@ class _AddPostState extends State<AddPost> {
                     icon: const Icon(Icons.close)),
                 const Text("Create a Post"),
                 TextButton(
-                    onPressed: () {
-                      context.read<DashboardProvider>().submitPost(
+                    onPressed: () async {
+                      await context.read<DashboardProvider>().submitPost(
                             0,
                             descriptionController.text,
                             0,
@@ -51,6 +52,8 @@ class _AddPostState extends State<AddPost> {
                           );
                       Navigator.of(context)
                           .pushReplacement(MaterialPageRoute(builder: (context) => const PeopleScreen()));
+                      // The Post image should turn null after submitting a post,
+                      //because when the user tries to post again, the post picture remains to be the image of the last post.
                     },
                     child: const Text("Post"))
               ],
@@ -120,35 +123,7 @@ class _AddPostState extends State<AddPost> {
               ),
             ),
             const SizedBox(height: 10),
-            // SizedBox(
-            //   child: TextButton(
-            //       onPressed: () async {
-            //         final ImagePicker imagePicker = ImagePicker();
-            //         final file = await imagePicker.pickImage(source: ImageSource.camera, imageQuality: 20);
-            //         if (file != null) {
-            //           context.read<AuthProvider>().setUserImageFile(file);
-            //         }
-            //       },
-            //       child: const Text("Add Photo")),
-            // ),
-
             PostPicure(file: context.watch<DashboardProvider>().file)
-            // Container(
-            //   height: MediaQuery.of(context).size.height * 0.3,
-            //   width: MediaQuery.of(context).size.width * 0.9,
-            //   decoration: BoxDecoration(
-            //     color: Colors.amber,
-            //     borderRadius: BorderRadius.circular(10),
-            //     // image: DecorationImage(
-            //     //   image: FileImage(File(context.watch<DashboardProvider>().file!.path)),
-            //     // ),
-            //   ),
-            //   // child: fileImage == null
-            //   //     ? const Center(child: Text("Upload Image"))
-            //   //     : const Center(
-            //   //         child: Text("Hello"),
-            //   //       ),
-            // ),
           ],
         ),
       ),
