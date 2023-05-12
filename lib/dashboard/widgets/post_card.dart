@@ -59,12 +59,13 @@ class _PostCardState extends State<PostCard> {
             const SizedBox(height: 10),
             widget.post.postImageUrl == null
                 ? const SizedBox()
-                : Center(
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.227,
                       width: MediaQuery.of(context).size.width * 0.85,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(30),
                       ),
                       child: Image.network(
                         widget.post.postImageUrl!,
@@ -82,7 +83,6 @@ class _PostCardState extends State<PostCard> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  // const SizedBox(),
                   Row(
                     children: [
                       IconButton(

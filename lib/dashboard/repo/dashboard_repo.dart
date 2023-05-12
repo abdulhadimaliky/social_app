@@ -35,11 +35,10 @@ class DashboardRepo {
   }
 
   Future<String?> uploadPostImage(XFile? file) async {
-    print(file);
     if (file != null) {
       final task = await firebaseStorage.ref("postImageUrl/${file.name}").putFile(File(file.path));
       final url = await task.ref.getDownloadURL();
-      print(url);
+
       return url;
     }
     return null;
@@ -69,7 +68,7 @@ class DashboardRepo {
       createdAt: DateTime.now(),
       postImageUrl: await uploadPostImage(file),
     );
-    final postMetaData = PostMetaData(postCommentsCount: 0, postLikesCount: []);
+    final postMetaData = PostMetaData(postCommentsCount: 0, postLikesCount: [], postId: myPostId);
     await firestore.collection("postMetaData").doc(myPostId).set(postMetaData.toJson());
     await firestore.collection("posts").doc(myPostId).set(post.toJson());
     await firestore.collection("userData").doc(posterUserId).collection("posts").doc(myPostId).set(post.toJson());
@@ -138,7 +137,7 @@ class DashboardRepo {
             commenterName: commenterName,
           ).toJson(),
         );
-    await firestore.collection("postMetaData").doc(postId).update({"postComments": FieldValue.increment(1)});
+    await firestore.collection("postMetaData").doc(postId).update({"postCommentsCount": FieldValue.increment(1)});
   }
 
   Stream<List<Comment>> openCommentsStream(String postId) {

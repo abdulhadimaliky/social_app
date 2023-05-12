@@ -74,10 +74,6 @@ class DashboardProvider extends ChangeNotifier {
     final url = await dashboardRepo.uploadPostImage(file);
     return url;
   }
-  // Future<void> getUserById(String id) async {
-  //   final receivedUser = await AuthRepo().getUserById(id);
-  //   UserModel.fromJson(receivedUser.data()!);
-  // }
 
   Future<void> submitPost(
     int postComments,
