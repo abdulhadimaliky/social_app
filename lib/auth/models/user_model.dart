@@ -38,7 +38,7 @@ class UserModel {
     };
   }
 
-  static UserModel fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       connections: json["connections"],
       description: json["description"],

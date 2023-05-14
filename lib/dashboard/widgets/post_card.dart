@@ -27,7 +27,9 @@ class _PostCardState extends State<PostCard> {
 
   @override
   void initState() {
-    getPostMetaData(widget.post.postId);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      getPostMetaData(widget.post.postId);
+    });
     super.initState();
   }
 

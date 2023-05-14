@@ -46,12 +46,7 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   Future<void> getRecommendations() async {
-    recommendations.clear();
-    final recs = await dashboardRepo.getRecommendations();
-
-    for (final doc in recs.docs) {
-      recommendations.add(UserModel.fromJson(doc.data()));
-    }
+    recommendations = await dashboardRepo.getRecommendations();
 
     notifyListeners();
   }
@@ -106,12 +101,10 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   Future<void> getAllPosts() async {
-    allPosts.clear();
     final post = await dashboardRepo.getAllPosts();
 
-    for (final doc in post.docs) {
-      allPosts.add(PostModel.fromJson(doc.data()));
-    }
+    allPosts = post.docs.map((e) => PostModel.fromJson(e.data())).toList();
+
     notifyListeners();
   }
 

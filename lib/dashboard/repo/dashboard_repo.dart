@@ -21,11 +21,14 @@ class DashboardRepo {
     return postMetaData;
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getRecommendations() async {
-    final getRecs =
-        await firestore.collection("userData").where("userUid", isNotEqualTo: firebaseAuth.currentUser!.uid).get();
+  Future<List<UserModel>> getRecommendations() async {
+    final myfriends = await getMyFriendsId();
+    final getRecs = await firestore.collection("userData").get();
+    final users = getRecs.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    users.removeWhere(
+        (element) => myfriends.contains(element.userUid) || element.userUid == firebaseAuth.currentUser!.uid);
 
-    return getRecs;
+    return users;
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getCurrentUserData() async {

@@ -62,13 +62,10 @@ class _HomeTabState extends State<HomeTab> {
             child: ListView.builder(
                 itemCount: context.watch<DashboardProvider>().allPosts.length,
                 itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      ...context.watch<DashboardProvider>().allPosts.map((e) => PostCard(
-                            post: e,
-                            onLiked: (post) {},
-                          )),
-                    ],
+                  final postModel = context.watch<DashboardProvider>().allPosts[index];
+                  return PostCard(
+                    post: postModel,
+                    onLiked: (post) {},
                   );
                 })),
       ],
