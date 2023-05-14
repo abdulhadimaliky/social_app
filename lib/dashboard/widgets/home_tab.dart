@@ -65,7 +65,6 @@ class _HomeTabState extends State<HomeTab> {
                   final postModel = context.watch<DashboardProvider>().allPosts[index];
                   return PostCard(
                     post: postModel,
-                    onLiked: (post) {},
                   );
                 })),
       ],

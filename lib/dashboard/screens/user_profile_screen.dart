@@ -110,11 +110,6 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       children: [
                         ...context.watch<DashboardProvider>().usersPosts.map((e) => PostCard(
                               post: e,
-                              onLiked: (post) {
-                                // context
-                                //     .read<DashboardProvider>()
-                                //     .likePost(postMetaData!, e.postId);
-                              },
                             ))
                       ],
                     ),

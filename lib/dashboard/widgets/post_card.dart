@@ -11,11 +11,9 @@ class PostCard extends StatefulWidget {
   const PostCard({
     Key? key,
     required this.post,
-    required this.onLiked,
   }) : super(key: key);
 
   final PostModel post;
-  final Function(PostModel post) onLiked;
 
   @override
   State<PostCard> createState() => _PostCardState();

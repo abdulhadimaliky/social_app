@@ -147,11 +147,6 @@ class _MyProfileState extends State<MyProfile> {
                     children: [
                       ...context.watch<DashboardProvider>().myPosts.map((post) => PostCard(
                             post: post,
-                            onLiked: (post) {
-                              // context
-                              //     .read<DashboardProvider>()
-                              //     .likePost(context.read<DashboardProvider>().postMetaData!, post.postId);
-                            },
                           ))
                     ],
                   ),

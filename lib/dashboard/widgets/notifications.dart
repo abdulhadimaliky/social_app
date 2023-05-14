@@ -83,26 +83,5 @@ class _NotificaitonsState extends State<Notificaitons> {
         ],
       ),
     );
-
-    // ListView.builder(
-    //   itemCount: myrequests.length,
-    //   itemBuilder: (context, index) {
-    //     return Column(
-    //       children: [
-    //         const Text("Notifications"),
-    //         ...myrequests.map(
-    //           (e) => ListTile(
-    //             leading: CircleAvatar(
-    //               backgroundImage: NetworkImage(e.senderImageUrl),
-    //             ),
-    //             title: Text(e.senderName),
-    //             subtitle: Text(e.sentAt.toString()),
-    //           ),
-    //         ),
-    //       ],
-    //     );
-    //     // return context.watch<DashboardProvider>().myFriendRequests.map((e) => ListTile());
-    //   },
-    // );
   }
 }
