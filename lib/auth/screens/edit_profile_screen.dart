@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/dashboard/screens/people_screen.dart';
-import 'package:social_app/auth/widgets/header.dart';
+import 'package:social_app/common/widgets/header.dart';
 import 'package:social_app/auth/widgets/image_avatar.dart';
 import 'package:social_app/auth/widgets/personal_field.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';

@@ -16,9 +16,23 @@ class DashboardRepo {
   final firestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
 
+  // Future<void> startChat(String receiverId) async {
+  //   final messageId =
+  //   await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).collection("inbox").doc()
+  // }
+
   Future<DocumentSnapshot<Map<String, dynamic>>> getPostMetaData(String postId) async {
     final postMetaData = await firestore.collection("postMetaData").doc(postId).get();
     return postMetaData;
+  }
+
+  Future<List<UserModel>> getMyFriends() async {
+    // final myFriendsId = await getMyFriendsId();
+    final frnd = await firestore.collection("userData").get();
+    final user = frnd.docs.map((e) => UserModel.fromJson(e.data())).toList();
+    user.removeWhere((element) => element.userUid == firebaseAuth.currentUser!.uid);
+    // print(frnds);
+    return user;
   }
 
   Future<List<UserModel>> getRecommendations() async {
@@ -109,14 +123,17 @@ class DashboardRepo {
     return getMyPosts;
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getAllPosts() async {
+  Future<List<PostModel>> getAllPosts() async {
+    //  final myfriends = await getMyFriendsId();
+
     final getAllPosts = await firestore
         .collection("userData")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("posts")
         .orderBy("createdAt", descending: true)
         .get();
-    return getAllPosts;
+
+    return getAllPosts.docs.map((e) => PostModel.fromJson(e.data())).toList();
   }
 
   Future<void> likePost(String postId, String userId) async {

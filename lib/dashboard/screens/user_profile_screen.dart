@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/models/user_model.dart';
-import 'package:social_app/auth/widgets/header.dart';
+import 'package:social_app/common/widgets/header.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/widgets/post_card.dart';
 

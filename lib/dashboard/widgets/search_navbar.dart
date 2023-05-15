@@ -5,7 +5,7 @@ import 'package:social_app/auth/providers/auth_provider.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/screens/user_profile_screen.dart';
 import 'package:social_app/dashboard/widgets/add_button.dart';
-import 'package:social_app/auth/widgets/header.dart';
+import 'package:social_app/common/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
 
 class SearchNavBar extends StatefulWidget {

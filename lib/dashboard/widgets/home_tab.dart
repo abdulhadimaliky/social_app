@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/app/screens/onboarding_screen.dart';
-import 'package:social_app/auth/providers/auth_provider.dart';
-import 'package:social_app/auth/widgets/header.dart';
+import 'package:social_app/common/widgets/header.dart';
 import 'package:social_app/auth/widgets/search_bar.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
+import 'package:social_app/chat/screens/inbox_screen.dart';
 import 'package:social_app/dashboard/widgets/post_card.dart';
 
 class HomeTab extends StatefulWidget {
@@ -40,18 +39,21 @@ class _HomeTabState extends State<HomeTab> {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Header(screenTitle: "People"),
-                    ElevatedButton(
-                        onPressed: () async {
-                          await context.read<AuthProvider>().signout();
-                          Navigator.of(context)
-                              .pushReplacement(MaterialPageRoute(builder: (context) => const OnboardingScreen()));
-                        },
-                        child: const Text("Log Out"))
-                  ],
+                Header(
+                  screenTitle: "People",
+                  endIcon: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const InboxScreen()));
+                    },
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.blue,
+                      child: Icon(
+                        size: 30,
+                        Icons.bolt,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
                 const SearchBar(),
               ],

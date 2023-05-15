@@ -20,7 +20,12 @@ class DashboardProvider extends ChangeNotifier {
   List<PostModel> usersPosts = [];
   List<Comment> comments = [];
   List<FriendRequestModel> myFriendRequests = [];
-  // List<UserModel> myFriends = [];
+  List<UserModel> myFriends = [];
+
+  Future<void> myFriendss() async {
+    myFriends = await dashboardRepo.getMyFriends();
+    notifyListeners();
+  }
 
   Future<void> acceptFriendRequests(String senderId, String requestId) async {
     await dashboardRepo.acceptRequest(senderId, currentUserData, requestId);
@@ -101,15 +106,12 @@ class DashboardProvider extends ChangeNotifier {
   }
 
   Future<void> getAllPosts() async {
-    final post = await dashboardRepo.getAllPosts();
-
-    allPosts = post.docs.map((e) => PostModel.fromJson(e.data())).toList();
+    allPosts = await dashboardRepo.getAllPosts();
 
     notifyListeners();
   }
 
   Future<void> likePost(PostMetaData post, String postId) async {
-    // final indexOfPost = allPosts.indexWhere((element) => element.postId == postId);
     if (post.postLikesCount.contains(currentUserData!.userUid)) {
       await dashboardRepo.unlikePost(post, postId, currentUserData!.userUid);
       post.postLikesCount.removeWhere((element) => element == currentUserData!.userUid);
