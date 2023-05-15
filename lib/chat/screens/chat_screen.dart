@@ -11,10 +11,12 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final TextEditingController messageController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -42,6 +44,23 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: TextField(
+                controller: messageController,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                    suffixIcon: IconButton(
+                        onPressed: () {
+                          // print(messageController.text);
+                          messageController.clear();
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.blue,
+                        ))),
               ),
             )
           ],
