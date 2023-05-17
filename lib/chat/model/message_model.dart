@@ -15,7 +15,7 @@ class MessageModel {
         "messageText": messageText,
       };
 
-  static MessageModel fromJson(Map<String, dynamic> json) {
+  factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
         messageId: json["messageId"],
         messageText: json["messageText"],

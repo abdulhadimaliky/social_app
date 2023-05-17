@@ -16,11 +16,6 @@ class DashboardRepo {
   final firestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
 
-  // Future<void> startChat(String receiverId) async {
-  //   final messageId =
-  //   await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).collection("inbox").doc()
-  // }
-
   Future<DocumentSnapshot<Map<String, dynamic>>> getPostMetaData(String postId) async {
     final postMetaData = await firestore.collection("postMetaData").doc(postId).get();
     return postMetaData;
@@ -60,11 +55,6 @@ class DashboardRepo {
     }
     return null;
   }
-
-  // Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(String id) async {
-  //   final receivedUser = await firestore.collection("userData").doc(id).get();
-  //   return receivedUser;
-  // }
 
   Future<void> submitPost(
     String postDescription,
@@ -124,8 +114,6 @@ class DashboardRepo {
   }
 
   Future<List<PostModel>> getAllPosts() async {
-    //  final myfriends = await getMyFriendsId();
-
     final getAllPosts = await firestore
         .collection("userData")
         .doc(firebaseAuth.currentUser!.uid)
@@ -159,7 +147,7 @@ class DashboardRepo {
   }
 
   Future<void> addComment(String postId, String commentBody, String commenterImageUrl, String commenterName) async {
-    await firestore.collection("Posts").doc(postId).collection("comments").add(
+    await firestore.collection("posts").doc(postId).collection("comments").add(
           Comment(
             commentAt: DateTime.now(),
             text: commentBody,
@@ -172,7 +160,7 @@ class DashboardRepo {
 
   Stream<List<Comment>> openCommentsStream(String postId) {
     return firestore
-        .collection("Posts")
+        .collection("posts")
         .doc(postId)
         .collection("comments")
         .orderBy("commentAt", descending: true)
@@ -233,21 +221,3 @@ class DashboardRepo {
     await firestore.collection("friendRequests").doc(requestId).update({"requestStatus": "accepted"});
   }
 }
-
-
-// ListView.builder(
-              //     itemCount: context.watch<DashboardProvider>().allPosts.length,
-              //     itemBuilder: (context, int index) {
-              //       return Column(
-              //         children: [
-              //           ...context.watch<DashboardProvider>().allPosts.map((e) => PostCard(
-              //                 post: e,
-              //                 onLiked: (post) async {
-              //                   await context
-              //                       .read<DashboardProvider>()
-              //                       .likePost(context.read<DashboardProvider>().postMetaData!, e.postId);
-              //                 },
-              //               ))
-              //         ],
-              //       );
-              //     })
