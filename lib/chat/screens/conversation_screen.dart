@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:social_app/chat/model/inbox_user_model.dart';
 import 'package:social_app/chat/provider/conversation_provider.dart';
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class ConversationScreen extends StatelessWidget {
   ConversationScreen({
@@ -85,23 +86,27 @@ class ConversationScreen extends StatelessWidget {
                                       messageIndex.senderId == user.userId
                                           ? CircleAvatar(backgroundImage: NetworkImage(user.userProfileUrl!))
                                           : const SizedBox(),
-                                      Flexible(
-                                        child: Container(
-                                          width: messageIndex.messageText.length > 20
-                                              ? MediaQuery.of(context).size.width * 0.65
-                                              : null,
-                                          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                            child: Text(
-                                              messageIndex.messageText,
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            width: messageIndex.messageText.length > 20
+                                                ? MediaQuery.of(context).size.width * 0.65
+                                                : null,
+                                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                              child: Text(
+                                                messageIndex.messageText,
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                          Text(timeago.format(messageIndex.sentAt)),
+                                        ],
                                       ),
                                       messageIndex.senderId ==
                                               context.read<DashboardProvider>().currentUserData!.userUid
@@ -114,40 +119,87 @@ class ConversationScreen extends StatelessWidget {
                                 });
                           }),
                         ),
-                        TextField(
-                          controller: messageController,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                              suffixIcon: IconButton(
-                                  onPressed: () {
-                                    context.read<ConversationProvider>().sentMessage(
-                                          user.userId,
-                                          messageController.text,
-                                          user.userId,
-                                          InboxUser(
-                                            userName: context.read<DashboardProvider>().currentUserData!.userName,
-                                            userProfileUrl:
-                                                context.read<DashboardProvider>().currentUserData!.profilePicture!,
-                                            userId: context.read<DashboardProvider>().currentUserData!.userUid,
-                                          ),
-                                          InboxUser(
-                                            userName: user.userName,
-                                            userProfileUrl: user.userProfileUrl,
-                                            userId: user.userId,
-                                          ),
-                                          DateTime.now(),
-                                        );
-                                    messageController.clear();
-                                  },
-                                  icon: const Icon(
-                                    Icons.send,
-                                    color: Colors.blue,
-                                  ))),
-                        ),
                       ],
                     ),
                   ),
-                )
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                  color: Colors.white,
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 10),
+                      Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: const Icon(Icons.attach_file, color: Colors.grey),
+                      ),
+                      // const SizedBox(width: 10),
+                      // Container(
+                      //   height: 40,
+                      //   width: 40,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(10),
+                      //     border: Border.all(color: Colors.grey),
+                      //   ),
+                      //   child: const Icon(Icons.insert_emoticon, color: Colors.grey),
+                      // ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: TextField(
+                          controller: messageController,
+                          decoration: InputDecoration(
+                            hintText: "Type a message...",
+                            hintStyle: const TextStyle(color: Colors.grey),
+                            constraints: const BoxConstraints(maxHeight: 60),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            // suffixIcon: Container(
+                            //   constraints: const BoxConstraints(maxHeight: 10, maxWidth: 10),
+                            //   decoration: BoxDecoration(
+                            //     color: Colors.blue.shade50,
+                            //     borderRadius: BorderRadius.circular(10),
+                            //     image: const DecorationImage(
+                            //       image: AssetImage("assets/gallery.png"),
+                            //     ),
+                            //   ),
+                            // ),
+                          ),
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            context.read<ConversationProvider>().sentMessage(
+                                  user.userId,
+                                  messageController.text,
+                                  user.userId,
+                                  InboxUser(
+                                    userName: context.read<DashboardProvider>().currentUserData!.userName,
+                                    userProfileUrl: context.read<DashboardProvider>().currentUserData!.profilePicture!,
+                                    userId: context.read<DashboardProvider>().currentUserData!.userUid,
+                                  ),
+                                  InboxUser(
+                                    userName: user.userName,
+                                    userProfileUrl: user.userProfileUrl,
+                                    userId: user.userId,
+                                  ),
+                                  DateTime.now(),
+                                );
+                            messageController.clear();
+                          },
+                          icon: const Icon(
+                            Icons.send,
+                            color: Colors.blue,
+                          )),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
