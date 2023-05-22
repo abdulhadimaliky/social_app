@@ -16,7 +16,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    checkCurrentUser();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      checkCurrentUser();
+    });
     super.initState();
   }
 

@@ -11,6 +11,10 @@ class AuthProvider extends ChangeNotifier {
 
   final authRep = AuthRepo();
 
+  Future<void> signinWithGoogle() async {
+    await authRep.signInWithGoogle();
+  }
+
   Future<void> signin(String email, String password) async {
     await authRep.signin(email, password);
   }
@@ -55,6 +59,7 @@ class AuthProvider extends ChangeNotifier {
     }
 
     notifyListeners();
+    return null;
   }
 
   Future<void> checkUserById(String userId) async {

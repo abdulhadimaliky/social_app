@@ -14,8 +14,10 @@ class ConversationRepo {
     String otherUserId,
     InboxUser myUser,
     InboxUser otherUser,
-    DateTime lastOpenedByUserAt,
-  ) async {
+    DateTime lastOpenedByUserAt, {
+    InboxUserModel? myInboxUserModel,
+    InboxUserModel? otherInboxUserModel,
+  }) async {
     final messageId = IdService.generateId();
     final message = MessageModel(
         messageId: messageId,
@@ -43,19 +45,25 @@ class ConversationRepo {
 
     final myInboxId = "${firebaseAuth.currentUser!.uid}_$otherUserId";
     final otherUserInboxId = "${otherUserId}_${firebaseAuth.currentUser!.uid}";
-    final myUserData = InboxUserModel(
-        inboxId: myInboxId,
-        inboxUser: otherUser,
-        lastMessage: message,
-        lastOpenedByUserAt: lastOpenedByUserAt,
-        lastUpdatedAt: message.sentAt);
+
+    if (myInboxUserModel == null) {
+      myInboxUserModel = InboxUserModel(
+          inboxId: myInboxId,
+          inboxUser: otherUser,
+          lastMessage: message,
+          lastOpenedByUserAt: lastOpenedByUserAt.subtract(const Duration(days: 1)),
+          lastUpdatedAt: message.sentAt);
+    } else {
+      myInboxUserModel.lastMessage = message;
+      myInboxUserModel.lastUpdatedAt = message.sentAt;
+    }
 
     await firestore
         .collection("userData")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("inbox")
         .doc("${firebaseAuth.currentUser!.uid}_$otherUserId")
-        .set(myUserData.toJson());
+        .set(myInboxUserModel.toJson());
 
     final otherUserData = InboxUserModel(
         inboxId: myInboxId,

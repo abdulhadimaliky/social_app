@@ -23,6 +23,7 @@ class _InboxScreenState extends State<InboxScreen> {
         child: ChangeNotifierProvider<InboxProvider>(
           create: (context) => InboxProvider(),
           child: Builder(builder: (context) {
+            final myInboxUsers = context.watch<InboxProvider>().myInboxUsers;
             return Column(
               children: [
                 Container(
@@ -53,7 +54,7 @@ class _InboxScreenState extends State<InboxScreen> {
                     ],
                   ),
                 ),
-                context.watch<InboxProvider>().myInboxUsers.isEmpty
+                myInboxUsers.isEmpty
                     ? Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,17 +67,18 @@ class _InboxScreenState extends State<InboxScreen> {
                       )
                     : Expanded(
                         child: ListView.builder(
-                            itemCount: context.watch<InboxProvider>().myInboxUsers.length,
+                            itemCount: myInboxUsers.length,
                             itemBuilder: (context, index) {
-                              final userIndex = context.watch<InboxProvider>().myInboxUsers[index];
+                              final userIndex = myInboxUsers[index];
                               return GestureDetector(
                                 onTap: () {
-                                  // print("go to user's chat scree");
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => ConversationScreen(
                                             user: userIndex.inboxUser,
                                             inboxUserModel: userIndex,
                                           )));
+                                  context.read<InboxProvider>().updateInboxUser(userIndex.inboxUser.userId);
+                                  //TODO: Change lastOpenByUserAt for the other user to DateTime.now()
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
@@ -91,7 +93,7 @@ class _InboxScreenState extends State<InboxScreen> {
                                         ),
                                         title: Text(userIndex.inboxUser.userName),
                                         subtitle: Text(
-                                          userIndex.lastMessage.messageText.length > 10
+                                          userIndex.lastMessage.messageText.length > 13
                                               ? '${userIndex.lastMessage.messageText.substring(0, 13)}...'
                                               : userIndex.lastMessage.messageText,
                                         ),

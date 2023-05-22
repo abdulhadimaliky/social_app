@@ -5,7 +5,7 @@ import 'package:social_app/chat/model/inbox_user_model.dart';
 import 'package:social_app/chat/repo/inox_repo.dart';
 
 class InboxProvider extends ChangeNotifier {
-  final chatRepo = InboxRepo();
+  final inboxRepo = InboxRepo();
 
   InboxProvider() {
     openInboxUsersStream();
@@ -16,7 +16,7 @@ class InboxProvider extends ChangeNotifier {
   StreamSubscription? _inboxSubscription;
 
   void openInboxUsersStream() {
-    _inboxSubscription = chatRepo.openInboxUsersStream().listen((event) {
+    _inboxSubscription = inboxRepo.openInboxUsersStream().listen((event) {
       myInboxUsers = [...event];
       notifyListeners();
     });
@@ -26,5 +26,9 @@ class InboxProvider extends ChangeNotifier {
   void dispose() {
     super.dispose();
     _inboxSubscription?.cancel();
+  }
+
+  Future<void> updateInboxUser(String userId) async {
+    inboxRepo.updateInboxUser(userId);
   }
 }

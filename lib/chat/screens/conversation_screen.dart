@@ -44,9 +44,26 @@ class ConversationScreen extends StatelessWidget {
                           icon: const Icon(Icons.arrow_back)),
                       Row(
                         children: [
-                          CircleAvatar(
-                            minRadius: 25,
-                            backgroundImage: NetworkImage(user.userProfileUrl!),
+                          Stack(
+                            children: [
+                              Positioned(
+                                child: CircleAvatar(
+                                  minRadius: 25,
+                                  backgroundImage: NetworkImage(user.userProfileUrl!),
+                                ),
+                              ),
+                              const Positioned(
+                                  bottom: 15,
+                                  right: 5,
+                                  child: CircleAvatar(
+                                    maxRadius: 7.5,
+                                    backgroundColor: Colors.white,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.green,
+                                      maxRadius: 6,
+                                    ),
+                                  ))
+                            ],
                           ),
                           const SizedBox(width: 10),
                           Text(
@@ -74,48 +91,74 @@ class ConversationScreen extends StatelessWidget {
                             return ListView.builder(
                                 reverse: true,
                                 scrollDirection: Axis.vertical,
+                                addAutomaticKeepAlives: true,
+                                physics: const BouncingScrollPhysics(),
                                 itemCount: userChatMessages.length,
                                 itemBuilder: (context, index) {
                                   final messageIndex = userChatMessages[index];
-                                  return Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: messageIndex.senderId == user.userId
-                                        ? MainAxisAlignment.start
-                                        : MainAxisAlignment.end,
-                                    children: [
-                                      messageIndex.senderId == user.userId
-                                          ? CircleAvatar(backgroundImage: NetworkImage(user.userProfileUrl!))
-                                          : const SizedBox(),
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            width: messageIndex.messageText.length > 20
-                                                ? MediaQuery.of(context).size.width * 0.65
-                                                : null,
-                                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                              child: Text(
-                                                messageIndex.messageText,
+                                  return Builder(builder: (context) {
+                                    print("I AM BUILT");
+                                    return Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: messageIndex.senderId == user.userId
+                                          ? MainAxisAlignment.start
+                                          : MainAxisAlignment.end,
+                                      children: [
+                                        messageIndex.senderId == user.userId
+                                            ? CircleAvatar(backgroundImage: NetworkImage(user.userProfileUrl!))
+                                            : const SizedBox(),
+                                        Column(
+                                          crossAxisAlignment: messageIndex.senderId == user.userId
+                                              ? CrossAxisAlignment.start
+                                              : CrossAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              width: messageIndex.messageText.length > 20
+                                                  ? MediaQuery.of(context).size.width * 0.65
+                                                  : null,
+                                              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                                child: Text(
+                                                  messageIndex.messageText,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Text(timeago.format(messageIndex.sentAt)),
-                                        ],
-                                      ),
-                                      messageIndex.senderId ==
-                                              context.read<DashboardProvider>().currentUserData!.userUid
-                                          ? CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  context.read<DashboardProvider>().currentUserData!.profilePicture!))
-                                          : const SizedBox(),
-                                    ],
-                                  );
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                // inboxUserModel!.lastMessage.senderId ==
+                                                //         context.read<DashboardProvider>().currentUserData!.userUid
+                                                //     ? const Icon(Icons.check)
+                                                //     : const SizedBox(),
+                                                if (messageIndex.messageId == userChatMessages.first.messageId &&
+                                                    userChatMessages.first.senderId ==
+                                                        context.read<DashboardProvider>().currentUserData!.userUid)
+                                                  Icon(Icons.check,
+                                                      color: inboxUserModel!.lastOpenedByUserAt
+                                                              .isAfter(inboxUserModel!.lastMessage.sentAt)
+                                                          ? Colors.green
+                                                          : Colors.grey)
+                                                else
+                                                  const SizedBox(),
+                                                Text(timeago.format(messageIndex.sentAt)),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        messageIndex.senderId ==
+                                                context.read<DashboardProvider>().currentUserData!.userUid
+                                            ? CircleAvatar(
+                                                backgroundImage: NetworkImage(
+                                                    context.read<DashboardProvider>().currentUserData!.profilePicture!))
+                                            : const SizedBox(),
+                                      ],
+                                    );
+                                  });
                                 });
                           }),
                         ),
@@ -138,16 +181,6 @@ class ConversationScreen extends StatelessWidget {
                         ),
                         child: const Icon(Icons.attach_file, color: Colors.grey),
                       ),
-                      // const SizedBox(width: 10),
-                      // Container(
-                      //   height: 40,
-                      //   width: 40,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(10),
-                      //     border: Border.all(color: Colors.grey),
-                      //   ),
-                      //   child: const Icon(Icons.insert_emoticon, color: Colors.grey),
-                      // ),
                       const SizedBox(width: 10),
                       Expanded(
                         child: TextField(
@@ -159,16 +192,6 @@ class ConversationScreen extends StatelessWidget {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            // suffixIcon: Container(
-                            //   constraints: const BoxConstraints(maxHeight: 10, maxWidth: 10),
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.blue.shade50,
-                            //     borderRadius: BorderRadius.circular(10),
-                            //     image: const DecorationImage(
-                            //       image: AssetImage("assets/gallery.png"),
-                            //     ),
-                            //   ),
-                            // ),
                           ),
                         ),
                       ),
@@ -189,6 +212,7 @@ class ConversationScreen extends StatelessWidget {
                                     userId: user.userId,
                                   ),
                                   DateTime.now(),
+                                  myInboxUserModel: inboxUserModel,
                                 );
                             messageController.clear();
                           },

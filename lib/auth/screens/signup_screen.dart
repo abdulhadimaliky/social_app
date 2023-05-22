@@ -60,6 +60,7 @@ class SignupScreen extends StatelessWidget {
                         if (value!.isEmpty) {
                           return "Please Enter your name";
                         }
+                        return null;
                       },
                     ),
                     SignupTitleAndTextField(
@@ -85,6 +86,7 @@ class SignupScreen extends StatelessWidget {
                         if (value!.length < 6) {
                           return "Password should be at least 6 characters";
                         }
+                        return null;
                       },
                       obscure: true,
                     ),

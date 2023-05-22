@@ -10,6 +10,10 @@ class ConversationProvider extends ChangeNotifier {
   StreamSubscription? _conversationStream;
 
   ConversationProvider({required this.otherUserId}) {
+    init();
+  }
+
+  void init() {
     openUserChatStream(otherUserId);
   }
 
@@ -26,22 +30,11 @@ class ConversationProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> sentMessage(
-    String receiverId,
-    String messageText,
-    String otherUserId,
-    InboxUser myUser,
-    InboxUser otherUser,
-    DateTime lastOpenedByUserAt,
-  ) async {
-    await conversationRepo.startChat(
-      receiverId,
-      messageText,
-      otherUserId,
-      myUser,
-      otherUser,
-      lastOpenedByUserAt,
-    );
+  Future<void> sentMessage(String receiverId, String messageText, String otherUserId, InboxUser myUser,
+      InboxUser otherUser, DateTime lastOpenedByUserAt,
+      {InboxUserModel? myInboxUserModel}) async {
+    await conversationRepo.startChat(receiverId, messageText, otherUserId, myUser, otherUser, lastOpenedByUserAt,
+        myInboxUserModel: myInboxUserModel);
   }
 
   @override

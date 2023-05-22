@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepo {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -12,6 +13,19 @@ class AuthRepo {
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
   UserModel? user;
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   Future<UserCredential> createUser(String email, String password) async {
     return await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
@@ -31,6 +45,7 @@ class AuthRepo {
       final url = await task.ref.getDownloadURL();
       return url;
     }
+    return null;
   }
 
   Future<void> submitForm(String? profilePicture, String description, String jobDetails, String location,
