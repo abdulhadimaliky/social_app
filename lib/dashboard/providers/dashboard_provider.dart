@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:social_app/chat/model/inbox_user_model.dart';
 import 'package:social_app/dashboard/models/comment_model.dart';
 import 'package:social_app/dashboard/models/friend_request_model.dart';
 import 'package:social_app/dashboard/models/post_metadata.dart';
@@ -21,6 +22,12 @@ class DashboardProvider extends ChangeNotifier {
   List<Comment> comments = [];
   List<FriendRequestModel> myFriendRequests = [];
   List<UserModel> myFriends = [];
+  List<InboxUserModel> unreadMessagesCount = [];
+
+  Future<void> unreadMessageCount() async {
+    unreadMessagesCount = await dashboardRepo.getUnreadMessagesCount();
+    notifyListeners();
+  }
 
   Future<void> myFriendss() async {
     myFriends = await dashboardRepo.getMyFriends();

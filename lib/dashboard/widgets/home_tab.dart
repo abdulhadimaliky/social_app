@@ -19,6 +19,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
     context.read<DashboardProvider>().getAllPosts();
+    context.read<DashboardProvider>().unreadMessageCount();
     super.initState();
   }
 
@@ -41,18 +42,37 @@ class _HomeTabState extends State<HomeTab> {
               children: [
                 Header(
                   screenTitle: "People",
-                  endIcon: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const InboxScreen()));
-                    },
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.blue,
-                      child: Icon(
-                        size: 30,
-                        Icons.bolt,
-                        color: Colors.white,
+                  endIcon: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => const InboxScreen()));
+                        },
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.blue,
+                          child: Icon(
+                            size: 30,
+                            Icons.bolt,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                    ),
+                      context.watch<DashboardProvider>().unreadMessagesCount.isEmpty
+                          ? const SizedBox()
+                          : Positioned(
+                              top: -5,
+                              right: 8,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.amber,
+                                maxRadius: 10,
+                                child: Text(
+                                  context.watch<DashboardProvider>().unreadMessagesCount.length.toString(),
+                                  style: const TextStyle(fontSize: 13, color: Colors.black),
+                                ),
+                              ),
+                            ),
+                    ],
                   ),
                 ),
                 const SearchBar(),

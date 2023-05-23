@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
+import 'package:social_app/chat/model/inbox_user_model.dart';
 import 'package:social_app/common/services/id_service.dart';
 import 'package:social_app/dashboard/models/comment_model.dart';
 import 'package:social_app/dashboard/models/friend_request_model.dart';
@@ -15,6 +16,18 @@ class DashboardRepo {
   final firebaseAuth = FirebaseAuth.instance;
   final firestore = FirebaseFirestore.instance;
   final firebaseStorage = FirebaseStorage.instance;
+
+  Future<List<InboxUserModel>> getUnreadMessagesCount() async {
+    final userInboxCount = await firestore
+        .collection("userData")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("inbox")
+        .where("unreadMessagesCount", isEqualTo: 1)
+        .get();
+
+    final count = userInboxCount.docs.map((e) => InboxUserModel.fromJson(e.data())).toList();
+    return count;
+  }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getPostMetaData(String postId) async {
     final postMetaData = await firestore.collection("postMetaData").doc(postId).get();
