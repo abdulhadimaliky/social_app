@@ -78,11 +78,11 @@ class _InboxScreenState extends State<InboxScreen> {
                                             inboxUserModel: userIndex,
                                           )));
                                   context.read<InboxProvider>().updateInboxUser(userIndex.inboxUser.userId);
-                                  //TODO: Change lastOpenByUserAt for the other user to DateTime.now()
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                                   child: Card(
+                                      color: userIndex.unreadMessagesCount! > 0 ? Colors.blue.shade50 : Colors.white,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -91,20 +91,26 @@ class _InboxScreenState extends State<InboxScreen> {
                                           maxRadius: 25,
                                           backgroundImage: NetworkImage(userIndex.inboxUser.userProfileUrl!),
                                         ),
-                                        title: Text(userIndex.inboxUser.userName),
+                                        title: Text(
+                                          userIndex.inboxUser.userName,
+                                          style: TextStyle(
+                                              fontWeight: userIndex.unreadMessagesCount! > 0
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal),
+                                        ),
                                         subtitle: Text(
                                           userIndex.lastMessage.messageText.length > 13
                                               ? '${userIndex.lastMessage.messageText.substring(0, 13)}...'
                                               : userIndex.lastMessage.messageText,
+                                          style: TextStyle(
+                                              fontWeight: userIndex.unreadMessagesCount! > 0
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal),
                                         ),
                                         trailing: userIndex.unreadMessagesCount! > 0
-                                            ? CircleAvatar(
+                                            ? const CircleAvatar(
                                                 backgroundColor: Colors.green,
-                                                maxRadius: 12,
-                                                child: Text(
-                                                  userIndex.unreadMessagesCount.toString(),
-                                                  style: const TextStyle(color: Colors.white),
-                                                ),
+                                                maxRadius: 6,
                                               )
                                             : Text(timeago.format(userIndex.lastMessage.sentAt)),
                                       )),

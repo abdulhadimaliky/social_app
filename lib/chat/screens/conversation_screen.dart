@@ -130,7 +130,8 @@ class ConversationScreen extends StatelessWidget {
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              if (messageIndex.messageId == userChatMessages.first.messageId &&
+                                              if (inboxUserModel != null &&
+                                                  messageIndex.messageId == userChatMessages.first.messageId &&
                                                   userChatMessages.first.senderId ==
                                                       context.read<DashboardProvider>().currentUserData!.userUid)
                                                 Icon(Icons.done_all,
