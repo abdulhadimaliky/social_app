@@ -151,8 +151,9 @@ class DashboardRepo {
 
   Future<QuerySnapshot<Map<String, dynamic>>> getUserPostsFromDB(String posterId) async {
     final getMyPosts = await firestore
-        .collection("Posts")
-        .where("postUserId", isEqualTo: posterId)
+        .collection("userData")
+        .doc(posterId)
+        .collection("posts")
         .orderBy("createdAt", descending: true)
         .get();
 
