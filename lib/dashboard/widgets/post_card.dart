@@ -35,9 +35,7 @@ class _PostCardState extends State<PostCard> {
     final postData = await repo.getPostMetaData(postId);
     if (postData.exists) {
       postMetaData = PostMetaData.fromJson(postData.data()!);
-      if (postData.exists) {
-        setState(() {});
-      }
+      setState(() {});
     }
   }
 
