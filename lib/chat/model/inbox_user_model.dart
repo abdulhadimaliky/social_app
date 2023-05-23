@@ -7,6 +7,7 @@ class InboxUserModel {
   MessageModel lastMessage;
   DateTime lastOpenedByUserAt;
   DateTime lastUpdatedAt;
+  int? unreadMessagesCount;
 
   InboxUserModel({
     required this.inboxId,
@@ -14,6 +15,7 @@ class InboxUserModel {
     required this.lastMessage,
     required this.lastOpenedByUserAt,
     required this.lastUpdatedAt,
+    this.unreadMessagesCount = 0,
   });
 
   Map<String, dynamic> toJson() => {
@@ -22,16 +24,17 @@ class InboxUserModel {
         "lastMessage": lastMessage.toJson(),
         "lastOpenedByUserAt": lastOpenedByUserAt,
         "lastUpdatedAt": lastUpdatedAt,
+        "unreadMessagesCount": unreadMessagesCount,
       };
 
   factory InboxUserModel.fromJson(Map<String, dynamic> json) {
     return InboxUserModel(
-      inboxId: json["inboxId"],
-      inboxUser: InboxUser.fromJson(json["inboxUser"]),
-      lastMessage: MessageModel.fromJson(json["lastMessage"]),
-      lastOpenedByUserAt: (json["lastOpenedByUserAt"] as Timestamp).toDate(),
-      lastUpdatedAt: (json["lastUpdatedAt"] as Timestamp).toDate(),
-    );
+        inboxId: json["inboxId"],
+        inboxUser: InboxUser.fromJson(json["inboxUser"]),
+        lastMessage: MessageModel.fromJson(json["lastMessage"]),
+        lastOpenedByUserAt: (json["lastOpenedByUserAt"] as Timestamp).toDate(),
+        lastUpdatedAt: (json["lastUpdatedAt"] as Timestamp).toDate(),
+        unreadMessagesCount: json["unreadMessagesCount"]);
   }
 }
 

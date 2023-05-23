@@ -48,11 +48,12 @@ class ConversationRepo {
 
     if (myInboxUserModel == null) {
       myInboxUserModel = InboxUserModel(
-          inboxId: myInboxId,
-          inboxUser: otherUser,
-          lastMessage: message,
-          lastOpenedByUserAt: lastOpenedByUserAt.subtract(const Duration(days: 1)),
-          lastUpdatedAt: message.sentAt);
+        inboxId: myInboxId,
+        inboxUser: otherUser,
+        lastMessage: message,
+        lastOpenedByUserAt: lastOpenedByUserAt.subtract(const Duration(days: 1)),
+        lastUpdatedAt: message.sentAt,
+      );
     } else {
       myInboxUserModel.lastMessage = message;
       myInboxUserModel.lastUpdatedAt = message.sentAt;
@@ -66,11 +67,12 @@ class ConversationRepo {
         .set(myInboxUserModel.toJson());
 
     final otherUserData = InboxUserModel(
-        inboxId: myInboxId,
-        inboxUser: myUser,
-        lastMessage: message,
-        lastOpenedByUserAt: lastOpenedByUserAt,
-        lastUpdatedAt: message.sentAt);
+      inboxId: myInboxId,
+      inboxUser: myUser,
+      lastMessage: message,
+      lastOpenedByUserAt: lastOpenedByUserAt,
+      lastUpdatedAt: message.sentAt,
+    );
 
     await firestore
         .collection("userData")
@@ -78,6 +80,12 @@ class ConversationRepo {
         .collection("inbox")
         .doc(otherUserInboxId)
         .set(otherUserData.toJson());
+    await firestore
+        .collection("userData")
+        .doc(otherUserId)
+        .collection("inbox")
+        .doc(otherUserInboxId)
+        .update({"unreadMessagesCount": FieldValue.increment(1)});
   }
 
   Stream<List<MessageModel>> openChatStream(String otherUserId) {

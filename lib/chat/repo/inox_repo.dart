@@ -23,5 +23,12 @@ class InboxRepo {
         .collection("inbox")
         .doc("${userId}_${firebaseAuth.currentUser!.uid}")
         .update({"lastOpenedByUserAt": DateTime.now()});
+
+    firestore
+        .collection("userData")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("inbox")
+        .doc("${firebaseAuth.currentUser!.uid}_$userId")
+        .update({"unreadMessagesCount": 0});
   }
 }

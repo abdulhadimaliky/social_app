@@ -96,69 +96,63 @@ class ConversationScreen extends StatelessWidget {
                                 itemCount: userChatMessages.length,
                                 itemBuilder: (context, index) {
                                   final messageIndex = userChatMessages[index];
-                                  return Builder(builder: (context) {
-                                    print("I AM BUILT");
-                                    return Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      mainAxisAlignment: messageIndex.senderId == user.userId
-                                          ? MainAxisAlignment.start
-                                          : MainAxisAlignment.end,
-                                      children: [
-                                        messageIndex.senderId == user.userId
-                                            ? CircleAvatar(backgroundImage: NetworkImage(user.userProfileUrl!))
-                                            : const SizedBox(),
-                                        Column(
-                                          crossAxisAlignment: messageIndex.senderId == user.userId
-                                              ? CrossAxisAlignment.start
-                                              : CrossAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              width: messageIndex.messageText.length > 20
-                                                  ? MediaQuery.of(context).size.width * 0.65
-                                                  : null,
-                                              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                                child: Text(
-                                                  messageIndex.messageText,
-                                                ),
+
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: messageIndex.senderId == user.userId
+                                        ? MainAxisAlignment.start
+                                        : MainAxisAlignment.end,
+                                    children: [
+                                      messageIndex.senderId == user.userId
+                                          ? CircleAvatar(backgroundImage: NetworkImage(user.userProfileUrl!))
+                                          : const SizedBox(),
+                                      Column(
+                                        crossAxisAlignment: messageIndex.senderId == user.userId
+                                            ? CrossAxisAlignment.start
+                                            : CrossAxisAlignment.end,
+                                        children: [
+                                          Container(
+                                            width: messageIndex.messageText.length > 20
+                                                ? MediaQuery.of(context).size.width * 0.65
+                                                : null,
+                                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                              child: Text(
+                                                messageIndex.messageText,
                                               ),
                                             ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                // inboxUserModel!.lastMessage.senderId ==
-                                                //         context.read<DashboardProvider>().currentUserData!.userUid
-                                                //     ? const Icon(Icons.check)
-                                                //     : const SizedBox(),
-                                                if (messageIndex.messageId == userChatMessages.first.messageId &&
-                                                    userChatMessages.first.senderId ==
-                                                        context.read<DashboardProvider>().currentUserData!.userUid)
-                                                  Icon(Icons.check,
-                                                      color: inboxUserModel!.lastOpenedByUserAt
-                                                              .isAfter(inboxUserModel!.lastMessage.sentAt)
-                                                          ? Colors.green
-                                                          : Colors.grey)
-                                                else
-                                                  const SizedBox(),
-                                                Text(timeago.format(messageIndex.sentAt)),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        messageIndex.senderId ==
-                                                context.read<DashboardProvider>().currentUserData!.userUid
-                                            ? CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    context.read<DashboardProvider>().currentUserData!.profilePicture!))
-                                            : const SizedBox(),
-                                      ],
-                                    );
-                                  });
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              if (messageIndex.messageId == userChatMessages.first.messageId &&
+                                                  userChatMessages.first.senderId ==
+                                                      context.read<DashboardProvider>().currentUserData!.userUid)
+                                                Icon(Icons.done_all,
+                                                    color: inboxUserModel!.lastOpenedByUserAt
+                                                            .isAfter(inboxUserModel!.lastMessage.sentAt)
+                                                        ? Colors.green
+                                                        : Colors.grey)
+                                              else
+                                                const SizedBox(),
+                                              Text(timeago.format(messageIndex.sentAt)),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      messageIndex.senderId ==
+                                              context.read<DashboardProvider>().currentUserData!.userUid
+                                          ? CircleAvatar(
+                                              backgroundImage: NetworkImage(
+                                                  context.read<DashboardProvider>().currentUserData!.profilePicture!))
+                                          : const SizedBox(),
+                                    ],
+                                  );
                                 });
                           }),
                         ),
