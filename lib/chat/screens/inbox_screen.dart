@@ -78,6 +78,7 @@ class _InboxScreenState extends State<InboxScreen> {
                                             inboxUserModel: userIndex,
                                           )));
                                   context.read<InboxProvider>().updateInboxUser(userIndex.inboxUser.userId);
+                                  context.read<DashboardProvider>().removeWatchCountById(userIndex.inboxId);
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 15.0),

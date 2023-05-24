@@ -32,36 +32,7 @@ class _MyProfileState extends State<MyProfile> {
       child: Center(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Header(screenTitle: "Profile"),
-                IconButton(
-                    onPressed: () {
-                      // showDialog(
-                      //     context: context,
-                      //     builder: (context) => AlertDialog(
-                      //           backgroundColor: Colors.white,
-                      //           contentPadding: const EdgeInsets.symmetric(horizontal: 200, vertical: 200),
-                      //           title: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
-                      //           content: Column(
-                      //             crossAxisAlignment: CrossAxisAlignment.start,
-                      //             children: [
-                      //               ListTile(
-                      //                 leading: CircleAvatar(
-                      //                   radius: 40,
-                      //                   backgroundImage: NetworkImage(user.profilePicture!),
-                      //                 ),
-                      //                 title: Text(user.userName),
-                      //                 subtitle: Text("@${user.userName}"),
-                      //               ),
-                      //             ],
-                      //           ),
-                      //         ));
-                    },
-                    icon: const Icon(Icons.settings))
-              ],
-            ),
+            Header(screenTitle: "Profile", endIcon: IconButton(onPressed: () {}, icon: const Icon(Icons.settings))),
             ListTile(
               leading: CircleAvatar(
                 radius: 40,

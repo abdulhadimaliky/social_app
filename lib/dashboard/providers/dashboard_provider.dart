@@ -29,6 +29,11 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeWatchCountById(String inboxId) {
+    unreadMessagesCount.removeWhere((element) => element.inboxId == inboxId);
+    notifyListeners();
+  }
+
   Future<void> myFriendss() async {
     myFriends = await dashboardRepo.getMyFriends();
     notifyListeners();

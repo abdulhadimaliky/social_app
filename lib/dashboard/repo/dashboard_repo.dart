@@ -48,7 +48,7 @@ class DashboardRepo {
     final getRecs = await firestore.collection("userData").get();
     final users = getRecs.docs.map((e) => UserModel.fromJson(e.data())).toList();
     users.removeWhere(
-        (element) => myfriends.contains(element.userUid) || element.userUid == firebaseAuth.currentUser!.uid);
+        (element) => myfriends.contains(element.userUid) || element.userUid == firebaseAuth.currentUser?.uid);
 
     return users;
   }
