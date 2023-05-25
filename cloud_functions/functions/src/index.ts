@@ -2,6 +2,7 @@ import { firestore } from "firebase-admin"
 import * as functions from "firebase-functions"
 
 import * as admin from "firebase-admin";
+import { Message } from "firebase-admin/lib/messaging/messaging-api";
 
 admin.initializeApp()
 
@@ -57,7 +58,7 @@ exports.onSendMessage = functions.firestore
 
         // Other user inbox id by placing otherUserId first and current user id last
         const otherInboxId = `${otherUserId}_${userId}`;
-        
+
 
         // Setting the message document for the Other users under inbox collection
         await firestore().collection("userData")
@@ -88,7 +89,7 @@ exports.onSendMessage = functions.firestore
             await firestore().collection("userData").doc(userId).collection("inbox").doc(inboxId).update(myInbox);
         } else {
 
-                        // Create the inbox document for Current user
+            // Create the inbox document for Current user
 
             const myInboxUser = {
                 "inboxId": inboxId,
@@ -116,7 +117,13 @@ exports.onSendMessage = functions.firestore
             otherInbox["lastUpdatedAt"] = new Date()
 
             // Unread count is incremented because the message is considered as unread for OTHER user
-            otherInbox["unreadMessagesCount"]++;
+            // Note that the unreadCount should only be updated for the OTHER that means
+            // Sender Id should be equal to the userId in the params
+
+            if (message["senderId"] == userId) {
+
+                otherInbox["unreadMessagesCount"]++;
+            }
 
             await firestore().collection("userData").doc(otherUserId).collection("inbox").doc(otherInboxId).update(otherInbox);
 
@@ -134,8 +141,23 @@ exports.onSendMessage = functions.firestore
                 "lastUpdatedAt": new Date(),
                 "unreadMessagesCount": 1,
             }
-           
+
             await firestore().collection("userData").doc(otherUserId).collection("inbox").doc(otherInboxId).set(otherInboxUser);
 
         }
+       
+        const notificationMessage: Message = {
+            "token": otherUser["deviceToken"],
+            "data":  {
+                title: myUser["userName"],
+                body: message["messageText"],
+                
+            },
+            "notification": {
+                title: myUser["userName"],
+                body: message["messageText"],
+            },
+        }
+
+        admin.messaging().send(notificationMessage)
     })

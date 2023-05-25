@@ -16,7 +16,6 @@ class ConversationRepo {
     InboxUser otherUser,
     DateTime lastOpenedByUserAt, {
     InboxUserModel? myInboxUserModel,
-    InboxUserModel? otherInboxUserModel,
   }) async {
     final messageId = IdService.generateId();
     final message = MessageModel(

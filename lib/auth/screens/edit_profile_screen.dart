@@ -46,6 +46,7 @@ class EditProfileScreen extends StatelessWidget {
                         if (value!.isEmpty) {
                           return "Enter your name";
                         }
+                        return null;
                       },
                       controller: nameController,
                     ),
@@ -59,6 +60,7 @@ class EditProfileScreen extends StatelessWidget {
                             if (value!.isEmpty) {
                               return "Enter your profession";
                             }
+                            return null;
                           },
                           controller: professionController,
                           fieldSize: "no",
@@ -70,6 +72,7 @@ class EditProfileScreen extends StatelessWidget {
                             if (value!.isEmpty) {
                               return "Enter your location";
                             }
+                            return null;
                           },
                           controller: locationController,
                           fieldSize: "no",
@@ -83,6 +86,7 @@ class EditProfileScreen extends StatelessWidget {
                         if (value!.isEmpty) {
                           return "Enter your description";
                         }
+                        return null;
                       },
                       controller: descriptionController,
                       fieldSize: "full",
@@ -97,6 +101,7 @@ class EditProfileScreen extends StatelessWidget {
                             if (value!.isEmpty) {
                               return "Enter your job details";
                             }
+                            return null;
                           },
                           controller: jobController,
                           fieldSize: "no",
@@ -108,6 +113,7 @@ class EditProfileScreen extends StatelessWidget {
                             if (value!.isEmpty) {
                               return "Enter your experience period";
                             }
+                            return null;
                           },
                           controller: jobYearsController,
                           fieldSize: "no",

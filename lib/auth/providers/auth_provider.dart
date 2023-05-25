@@ -33,37 +33,27 @@ class AuthProvider extends ChangeNotifier {
     return url;
   }
 
-  Future<void> submitForm(
-      {required String description,
-      required String jobDetails,
-      required String location,
-      required String profession,
-      required String userName,
-      required String years}) async {
-    await authRep.submitForm(
-      await uploadDP(),
-      description,
-      jobDetails,
-      location,
-      profession,
-      userName,
-      years,
-    );
+  Future<void> submitForm({
+    required String description,
+    required String jobDetails,
+    required String location,
+    required String profession,
+    required String userName,
+    required String years,
+  }) async {
+    await authRep.submitForm(await uploadDP(), description, jobDetails, location, profession, userName, years);
   }
 
   Future<UserModel?> checkUserInDB() async {
     final snapshot = await authRep.checkUserInDB();
     if (snapshot.exists) {
       user = UserModel.fromJson(snapshot.data()!);
+
       return user;
     }
 
     notifyListeners();
     return null;
-  }
-
-  Future<void> checkUserById(String userId) async {
-    await authRep.checkUserById(userId);
   }
 
   Future<void> signout() async {

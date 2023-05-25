@@ -22,7 +22,7 @@ class DashboardRepo {
         .collection("userData")
         .doc(firebaseAuth.currentUser!.uid)
         .collection("inbox")
-        .where("unreadMessagesCount", isEqualTo: 1)
+        .where("unreadMessagesCount", isGreaterThan: 0)
         .get();
 
     final count = userInboxCount.docs.map((e) => InboxUserModel.fromJson(e.data())).toList();

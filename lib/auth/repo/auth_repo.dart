@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social_app/auth/models/user_model.dart';
@@ -51,26 +52,28 @@ class AuthRepo {
   Future<void> submitForm(String? profilePicture, String description, String jobDetails, String location,
       String profession, String userName, String years) async {
     user = UserModel(
-      profilePicture: profilePicture,
-      description: description,
-      jobDetails: jobDetails,
-      location: location,
-      profession: profession,
-      userName: userName,
-      userUid: firebaseAuth.currentUser!.uid,
-      years: years,
-    );
+        profilePicture: profilePicture,
+        description: description,
+        jobDetails: jobDetails,
+        location: location,
+        profession: profession,
+        userName: userName,
+        userUid: firebaseAuth.currentUser!.uid,
+        years: years,
+        deviceToken: await FirebaseMessaging.instance.getToken());
 
     await firestore.collection("userData").doc(FirebaseAuth.instance.currentUser!.uid).set(user!.toJson());
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> checkUserInDB() async {
     final snapshot = await firestore.collection("userData").doc(firebaseAuth.currentUser!.uid).get();
-    return snapshot;
-  }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> checkUserById(String userId) async {
-    final snapshot = await firestore.collection("userData").doc(userId).get();
+    if (snapshot.exists) {
+      await firestore
+          .collection("userData")
+          .doc(firebaseAuth.currentUser!.uid)
+          .update({"deviceToken": await FirebaseMessaging.instance.getToken()});
+    }
     return snapshot;
   }
 

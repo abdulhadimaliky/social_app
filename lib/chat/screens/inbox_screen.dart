@@ -109,9 +109,16 @@ class _InboxScreenState extends State<InboxScreen> {
                                                   : FontWeight.normal),
                                         ),
                                         trailing: userIndex.unreadMessagesCount! > 0
-                                            ? const CircleAvatar(
+                                            ? CircleAvatar(
                                                 backgroundColor: Colors.green,
-                                                maxRadius: 6,
+                                                maxRadius: 12,
+                                                child: Text(
+                                                  userIndex.unreadMessagesCount.toString(),
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
                                               )
                                             : Text(timeago.format(userIndex.lastMessage.sentAt)),
                                       )),

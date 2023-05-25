@@ -9,6 +9,7 @@ class UserModel {
   final String location;
   final int connections;
   final int followers;
+  final String? deviceToken;
 
   const UserModel({
     this.followers = 0,
@@ -21,6 +22,7 @@ class UserModel {
     required this.userName,
     required this.years,
     required this.userUid,
+    this.deviceToken,
   });
 
   Map<String, dynamic> toJson() {
@@ -34,7 +36,8 @@ class UserModel {
       "years": years,
       "userUid": userUid,
       "connections": connections,
-      "followers": followers
+      "followers": followers,
+      "deviceToken": deviceToken
     };
   }
 
@@ -50,6 +53,7 @@ class UserModel {
       years: json["years"],
       userUid: json["userUid"],
       followers: json["followers"],
+      deviceToken: json["deviceToken"],
     );
   }
 }
