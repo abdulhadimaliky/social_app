@@ -35,7 +35,7 @@ class _PeopleScreenState extends State<PeopleScreen> {
                 Notificaitons(user: context.read<DashboardProvider>().currentUserData!),
                 AddPost(user: context.watch<DashboardProvider>().currentUserData!),
                 const SearchNavBar(),
-                MyProfile(user: context.watch<DashboardProvider>().currentUserData!),
+                MyProfile(user: context.read<DashboardProvider>().currentUserData!),
               ][bottomNavBarIndex],
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: bottomNavBarIndex,

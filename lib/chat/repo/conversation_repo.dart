@@ -34,58 +34,58 @@ class ConversationRepo {
         .doc(messageId)
         .set(message.toJson());
 
-    await firestore
-        .collection("userData")
-        .doc(receiverId)
-        .collection("inbox")
-        .doc("${receiverId}_${firebaseAuth.currentUser!.uid}")
-        .collection("messages")
-        .doc(messageId)
-        .set(message.toJson());
+    // await firestore
+    //     .collection("userData")
+    //     .doc(receiverId)
+    //     .collection("inbox")
+    //     .doc("${receiverId}_${firebaseAuth.currentUser!.uid}")
+    //     .collection("messages")
+    //     .doc(messageId)
+    //     .set(message.toJson());
 
-    final myInboxId = "${firebaseAuth.currentUser!.uid}_$otherUserId";
-    final otherUserInboxId = "${otherUserId}_${firebaseAuth.currentUser!.uid}";
+    // final myInboxId = "${firebaseAuth.currentUser!.uid}_$otherUserId";
+    // final otherUserInboxId = "${otherUserId}_${firebaseAuth.currentUser!.uid}";
 
-    if (myInboxUserModel == null) {
-      myInboxUserModel = InboxUserModel(
-        inboxId: myInboxId,
-        inboxUser: otherUser,
-        lastMessage: message,
-        lastOpenedByUserAt: lastOpenedByUserAt.subtract(const Duration(days: 1)),
-        lastUpdatedAt: message.sentAt,
-      );
-    } else {
-      myInboxUserModel.lastMessage = message;
-      myInboxUserModel.lastUpdatedAt = message.sentAt;
-    }
+    // if (myInboxUserModel == null) {
+    //   myInboxUserModel = InboxUserModel(
+    //     inboxId: myInboxId,
+    //     inboxUser: otherUser,
+    //     lastMessage: message,
+    //     lastOpenedByUserAt: lastOpenedByUserAt.subtract(const Duration(days: 1)),
+    //     lastUpdatedAt: message.sentAt,
+    //   );
+    // } else {
+    //   myInboxUserModel.lastMessage = message;
+    //   myInboxUserModel.lastUpdatedAt = message.sentAt;
+    // }
 
-    await firestore
-        .collection("userData")
-        .doc(firebaseAuth.currentUser!.uid)
-        .collection("inbox")
-        .doc("${firebaseAuth.currentUser!.uid}_$otherUserId")
-        .set(myInboxUserModel.toJson());
+    // await firestore
+    //     .collection("userData")
+    //     .doc(firebaseAuth.currentUser!.uid)
+    //     .collection("inbox")
+    //     .doc("${firebaseAuth.currentUser!.uid}_$otherUserId")
+    //     .set(myInboxUserModel.toJson());
 
-    final otherUserData = InboxUserModel(
-      inboxId: myInboxId,
-      inboxUser: myUser,
-      lastMessage: message,
-      lastOpenedByUserAt: lastOpenedByUserAt,
-      lastUpdatedAt: message.sentAt,
-    );
+    // final otherUserData = InboxUserModel(
+    //   inboxId: myInboxId,
+    //   inboxUser: myUser,
+    //   lastMessage: message,
+    //   lastOpenedByUserAt: lastOpenedByUserAt,
+    //   lastUpdatedAt: message.sentAt,
+    // );
 
-    await firestore
-        .collection("userData")
-        .doc(otherUserId)
-        .collection("inbox")
-        .doc(otherUserInboxId)
-        .set(otherUserData.toJson());
-    await firestore
-        .collection("userData")
-        .doc(otherUserId)
-        .collection("inbox")
-        .doc(otherUserInboxId)
-        .update({"unreadMessagesCount": FieldValue.increment(1)});
+    // await firestore
+    //     .collection("userData")
+    //     .doc(otherUserId)
+    //     .collection("inbox")
+    //     .doc(otherUserInboxId)
+    //     .set(otherUserData.toJson());
+    // await firestore
+    //     .collection("userData")
+    //     .doc(otherUserId)
+    //     .collection("inbox")
+    //     .doc(otherUserInboxId)
+    //     .update({"unreadMessagesCount": FieldValue.increment(1)});
   }
 
   Stream<List<MessageModel>> openChatStream(String otherUserId) {
