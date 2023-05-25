@@ -3,12 +3,11 @@ import 'package:provider/provider.dart';
 import 'package:social_app/app/screens/onboarding_screen.dart';
 import 'package:social_app/auth/models/user_model.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
-import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/widgets/setting_item.dart';
 
 class SettingsScreen extends StatelessWidget {
-  SettingsScreen({super.key, required this.user});
-  UserModel user;
+  const SettingsScreen({super.key, required this.user});
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {

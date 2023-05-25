@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:social_app/auth/providers/auth_provider.dart';
-import 'package:social_app/auth/widgets/image_avatar.dart';
 
 class PersonalField extends StatelessWidget {
   const PersonalField({super.key, required this.title});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/common/widgets/header.dart';
-import 'package:social_app/auth/widgets/search_bar.dart';
+import 'package:social_app/auth/widgets/search_bar.dart' as searchBar;
 import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/chat/screens/inbox_screen.dart';
 import 'package:social_app/dashboard/widgets/post_card.dart';
@@ -75,7 +75,7 @@ class _HomeTabState extends State<HomeTab> {
                     ],
                   ),
                 ),
-                const SearchBar(),
+                const searchBar.SearchBar(),
               ],
             ),
           ),

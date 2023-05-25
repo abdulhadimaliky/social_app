@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_app/auth/widgets/search_bar.dart';
+import 'package:social_app/auth/widgets/search_bar.dart' as searchBar;
 import 'package:social_app/chat/model/inbox_user_model.dart';
 import 'package:social_app/chat/provider/inbox_provider.dart';
 import 'package:social_app/chat/screens/conversation_screen.dart';
@@ -50,15 +50,15 @@ class _InboxScreenState extends State<InboxScreen> {
                             },
                             icon: const Icon(Icons.add)),
                       ),
-                      const SearchBar(),
+                      const searchBar.SearchBar(),
                     ],
                   ),
                 ),
                 myInboxUsers.isEmpty
-                    ? Expanded(
+                    ? const Expanded(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             Center(
                               child: Text("Start a chat first"),
                             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SettingItem extends StatelessWidget {
-  SettingItem({
+  const SettingItem({
     super.key,
     required this.icon,
     required this.itemTitle,
@@ -9,10 +9,10 @@ class SettingItem extends StatelessWidget {
     required this.iconColor,
   });
 
-  IconData icon;
-  String itemTitle;
-  Color color;
-  Color iconColor;
+  final IconData icon;
+  final String itemTitle;
+  final Color color;
+  final Color iconColor;
 
   @override
   Widget build(BuildContext context) {

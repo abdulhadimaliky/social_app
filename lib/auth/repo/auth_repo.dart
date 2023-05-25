@@ -79,5 +79,6 @@ class AuthRepo {
 
   Future<void> signout() async {
     await firebaseAuth.signOut();
+    FirebaseMessaging.instance.deleteToken();
   }
 }

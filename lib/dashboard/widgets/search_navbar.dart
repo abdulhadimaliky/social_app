@@ -6,7 +6,7 @@ import 'package:social_app/dashboard/providers/dashboard_provider.dart';
 import 'package:social_app/dashboard/screens/user_profile_screen.dart';
 import 'package:social_app/dashboard/widgets/add_button.dart';
 import 'package:social_app/common/widgets/header.dart';
-import 'package:social_app/auth/widgets/search_bar.dart';
+import 'package:social_app/auth/widgets/search_bar.dart' as searchBar;
 
 class SearchNavBar extends StatefulWidget {
   const SearchNavBar({super.key});
@@ -55,7 +55,7 @@ class _SearchNavBarState extends State<SearchNavBar> {
                             child: const Text("Log Out"))
                       ],
                     ),
-                    const SearchBar(),
+                    const searchBar.SearchBar(),
                   ],
                 ),
               ),

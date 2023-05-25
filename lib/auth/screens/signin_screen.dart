@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_app/auth/providers/auth_provider.dart';
-import 'package:social_app/auth/repo/auth_repo.dart';
 import 'package:social_app/auth/screens/edit_profile_screen.dart';
 import 'package:social_app/auth/widgets/primary_button.dart';
 import 'package:social_app/auth/widgets/signup_title_and_textfield.dart';
@@ -81,9 +80,9 @@ class _SigninScreenState extends State<SigninScreen> {
                     },
                     controller: passwordController,
                   ),
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [Text("Forgot Password?")],
+                    children: [Text("Forgot Password?")],
                   ),
                   PrimaryButton(
                       onpressed: () async {

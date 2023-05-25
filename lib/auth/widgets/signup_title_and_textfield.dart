@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SignupTitleAndTextField extends StatefulWidget {
-  SignupTitleAndTextField(
+  const SignupTitleAndTextField(
       {super.key,
       required this.title,
       required this.hintText,
@@ -13,7 +13,7 @@ class SignupTitleAndTextField extends StatefulWidget {
   final String title;
   final String hintText;
   final String? Function(String?) validate;
-  bool obscure;
+  final bool obscure;
   final TextEditingController controller;
   final String fieldSize;
 
@@ -22,7 +22,7 @@ class SignupTitleAndTextField extends StatefulWidget {
 }
 
 class _SignupTitleAndTextFieldState extends State<SignupTitleAndTextField> {
-  bool _obscurePassword = false;
+  late bool _obscurePassword = widget.obscure;
   @override
   Widget build(BuildContext context) {
     return Column(

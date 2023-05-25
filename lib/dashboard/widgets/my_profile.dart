@@ -8,12 +8,12 @@ import 'package:social_app/dashboard/screens/user_profile_screen.dart';
 import 'package:social_app/dashboard/widgets/post_card.dart';
 
 class MyProfile extends StatefulWidget {
-  MyProfile({
+  const MyProfile({
     required this.user,
     Key? key,
   }) : super(key: key);
 
-  UserModel user;
+  final UserModel user;
 
   @override
   State<MyProfile> createState() => _MyProfileState();
