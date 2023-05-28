@@ -42,7 +42,7 @@ class _InboxScreenState extends State<InboxScreen> {
                               showModalBottomSheet(
                                   shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                          topLeft: Radius.circular(21), topRight: Radius.circular(20))),
                                   context: context,
                                   builder: (context) {
                                     return const SelectFriend();
